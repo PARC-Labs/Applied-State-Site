@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 import type { Metadata } from 'next'
+import { isMemberEmail } from '@/lib/membership'
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
 
 export const metadata: Metadata = { title: 'Members' }
@@ -19,6 +20,12 @@ export default async function MembersPage() {
   }
 
   const { data: userData } = await supabase.auth.getUser()
+  const email = userData.user?.email
+
+  if (!isMemberEmail(email)) {
+    await supabase.auth.signOut()
+    redirect('/signin?error=not-member')
+  }
 
   return (
     <section className="page">
@@ -36,7 +43,7 @@ export default async function MembersPage() {
         </div>
         <div className="member-panel">
           <h2>Account</h2>
-          <p>{userData.user?.email ?? 'Active member'}</p>
+          <p>{email}</p>
           <form action="/api/auth/signout" method="post">
             <button className="button secondary" type="submit">Sign out</button>
           </form>
