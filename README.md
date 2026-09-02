@@ -14,9 +14,9 @@ Minimal institutional website for Applied State, built with Next.js App Router.
 
 ## Authentication
 
-Member authentication uses Supabase Auth with server-side cookies through `@supabase/ssr`.
+Member authentication uses Supabase Auth with server-side cookies through `@supabase/ssr` plus a server-only Applied State email allowlist.
 
-The public site does not provide sign-up. `signInWithOtp` is called with `shouldCreateUser: false`, so only users already created in Supabase Auth can obtain a magic link. The members page validates the JWT server-side with `getClaims()` before rendering.
+The public site does not provide sign-up. `signInWithOtp` is called with `shouldCreateUser: false`, and the sign-in route only sends a link to emails present in `APPLIED_STATE_MEMBER_EMAILS`. The members page validates the JWT server-side with `getClaims()`, fetches the current user from Supabase, and checks the email against the allowlist again before rendering.
 
 Set:
 
@@ -24,6 +24,7 @@ Set:
 NEXT_PUBLIC_SUPABASE_URL=...
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
 NEXT_PUBLIC_SITE_URL=https://your-domain.example
+APPLIED_STATE_MEMBER_EMAILS=member@example.com,second@example.com
 ```
 
 In Supabase, set the Site URL to the production domain. For SSR magic links, update the **Magic Link** email template to use:
@@ -32,7 +33,9 @@ In Supabase, set the Site URL to the production domain. For SSR magic links, upd
 <a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email">Sign in</a>
 ```
 
-Add members from the Supabase Auth dashboard or Admin API. Do not enable public sign-up for this application.
+Add approved members to Supabase Auth and to `APPLIED_STATE_MEMBER_EMAILS`. Disable public user sign-up in Supabase as an additional control. The application still denies member access to authenticated emails that are not on the server allowlist.
+
+No secret or service-role key belongs in the repository. The publishable Supabase key is expected to be public; authorization is enforced server-side.
 
 ## Local development
 
