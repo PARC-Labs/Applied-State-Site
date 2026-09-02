@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { isMemberAllowlistConfigured } from '@/lib/membership'
 import { isSupabaseConfigured } from '@/lib/supabase/server'
 
 export const metadata: Metadata = { title: 'Member sign in' }
@@ -7,7 +8,7 @@ type SearchParams = Promise<Record<string, string | string[] | undefined>>
 
 export default async function SignInPage({ searchParams }: { searchParams: SearchParams }) {
   const params = await searchParams
-  const configured = isSupabaseConfigured()
+  const configured = isSupabaseConfigured() && isMemberAllowlistConfigured()
   const sent = params.sent === '1'
   const error = typeof params.error === 'string' ? params.error : null
 
