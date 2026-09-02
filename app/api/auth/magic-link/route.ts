@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server'
+import { isMemberEmail } from '@/lib/membership'
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/server'
 
 function siteUrl(request: NextRequest) {
@@ -18,20 +19,22 @@ export async function POST(request: NextRequest) {
     return NextResponse.redirect(new URL('/signin?error=invalid-email', request.url), 303)
   }
 
-  const supabase = await createClient()
-  const { error } = await supabase.auth.signInWithOtp({
-    email,
-    options: {
-      shouldCreateUser: false,
-      emailRedirectTo: `${siteUrl(request)}/auth/confirm`,
-    },
-  })
+  if (isMemberEmail(email)) {
+    const supabase = await createClient()
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        shouldCreateUser: false,
+        emailRedirectTo: `${siteUrl(request)}/auth/confirm`,
+      },
+    })
 
-  // Deliberately return the same response for unknown emails and successful
-  // requests to avoid exposing the membership roster through enumeration.
-  if (error) {
-    console.error('Magic-link request rejected:', error.code ?? error.message)
+    if (error) {
+      console.error('Magic-link request rejected:', error.code ?? error.message)
+    }
   }
 
+  // Deliberately return the same response for unknown, non-member and valid
+  // emails so the membership roster cannot be enumerated through this route.
   return NextResponse.redirect(new URL('/signin?sent=1', request.url), 303)
 }
