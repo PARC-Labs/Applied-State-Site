@@ -1,0 +1,32 @@
+---
+interface Props {
+  src: string
+  alt: string
+  caption?: string
+  width?: 'narrow' | 'medium' | 'wide'
+  imageWidth?: number
+  imageHeight?: number
+}
+
+const {
+  src,
+  alt,
+  caption,
+  width = 'medium',
+  imageWidth,
+  imageHeight,
+} = Astro.props
+const resolvedSrc = src.startsWith('/') ? `${import.meta.env.BASE_URL}${src.slice(1)}` : src
+---
+
+<figure class:list={['editorial-object', `editorial-object--${width}`]}>
+  <img
+    src={resolvedSrc}
+    alt={alt}
+    width={imageWidth}
+    height={imageHeight}
+    loading="lazy"
+    decoding="async"
+  />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>

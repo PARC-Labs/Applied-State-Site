@@ -1,0 +1,20 @@
+---
+interface Props {
+  href: string
+  label: string
+  format?: string
+}
+
+const { href, label, format = 'FILE' } = Astro.props
+const isExternal = /^https:\/\//.test(href)
+
+if (/^[a-z][a-z\d+.-]*:/i.test(href) && !isExternal) {
+  throw new Error(`Document references must be local or use HTTPS: ${href}`)
+}
+
+const resolvedHref = href.startsWith('/') ? `${import.meta.env.BASE_URL}${href.slice(1)}` : href
+---
+
+<p class="editorial-object editorial-object--narrow reference">
+  <a href={resolvedHref} rel={isExternal ? 'noreferrer' : undefined}>{format.toUpperCase()} — {label}{isExternal ? ' ↗' : ''}</a>
+</p>

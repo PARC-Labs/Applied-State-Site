@@ -1,0 +1,43 @@
+---
+import MemberAccessGate from '../../../components/states/MemberAccessGate.astro'
+import StatesNavigation from '../../../components/states/StatesNavigation.astro'
+import StatesPageStyles from '../../../components/states/StatesPageStyles.astro'
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title="Index State — Applied State" noindex pageClass="member-page">
+  <article class="states-surface" data-state-view data-state-view-mode="index">
+    <header class="states-surface-header">
+      <StatesNavigation />
+    </header>
+
+    <MemberAccessGate />
+
+    <div class="state-document" data-member-workspace hidden>
+      <header>
+        <h1 data-state-title>STATE</h1>
+        <p class="state-byline" data-state-owner></p>
+        <p class="state-lifecycle" data-state-lifecycle></p>
+        <p class="state-description" data-state-description hidden></p>
+      </header>
+
+      <p class="states-status" data-state-status role="status" aria-live="polite"></p>
+
+      <section class="states-section state-document__body" aria-labelledby="index-materials-heading">
+        <h2 id="index-materials-heading">MATERIAL</h2>
+        <ol class="materials-list" data-state-materials></ol>
+        <p class="states-status" data-state-materials-empty hidden>No material yet.</p>
+      </section>
+    </div>
+  </article>
+
+  <StatesPageStyles />
+
+  <script>
+    import { initMemberRuntime } from '../../../scripts/member-runtime'
+    import { initStateViewPage } from '../../../scripts/states-view'
+
+    void initMemberRuntime()
+    void initStateViewPage()
+  </script>
+</BaseLayout>

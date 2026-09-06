@@ -1,0 +1,2 @@
+-- Deliberately empty. Local security fixtures live inside transactional pgTAP
+-- tests and are rolled back; no private/member example data belongs in a seed.

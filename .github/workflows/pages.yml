@@ -1,0 +1,115 @@
+name: Deploy to GitHub Pages
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Verify and build production artifact
+    if: >-
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_repository.full_name == github.repository &&
+       github.event.workflow_run.head_branch == 'main') ||
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')
+    runs-on: ubuntu-latest
+    env:
+      ASTRO_TELEMETRY_DISABLED: 1
+      SITE_URL: https://parc-labs.github.io
+      BASE_PATH: /Applied-State-Site
+      PUBLIC_SUPABASE_URL: ${{ vars.PUBLIC_SUPABASE_URL }}
+      PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ vars.PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - name: Check production member-service configuration
+        shell: bash
+        run: |
+          public_url="${PUBLIC_SUPABASE_URL//[[:space:]]/}"
+          public_key="${PUBLIC_SUPABASE_PUBLISHABLE_KEY//[[:space:]]/}"
+          if [[ -z "$public_url" && -z "$public_key" ]]; then
+            echo "::warning::Supabase public variables are absent. The public institution will deploy; member functions will remain unavailable and fail closed."
+          elif [[ -z "$public_url" || -z "$public_key" ]]; then
+            echo "::error::Set both PUBLIC_SUPABASE_URL and PUBLIC_SUPABASE_PUBLISHABLE_KEY, or omit both for a public-only deployment."
+            exit 1
+          elif [[ "$PUBLIC_SUPABASE_URL" == *"YOUR_PROJECT"* || "$PUBLIC_SUPABASE_PUBLISHABLE_KEY" == *"YOUR_KEY"* ]]; then
+            echo "::error::Replace placeholder Supabase repository variables or remove both for a public-only deployment."
+            exit 1
+          fi
+      - name: Install dependencies from lockfile
+        run: npm ci
+      - name: Run unit tests
+        run: npm run test:unit
+      - name: Check Astro and TypeScript
+        run: npm run check
+      - name: Build the production site
+        run: npm run build
+      - name: Verify the public artifact
+        run: npm run test:leakage
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  database:
+    name: Re-run database security checks
+    if: >-
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_repository.full_name == github.repository &&
+       github.event.workflow_run.head_branch == 'main') ||
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SUPABASE_TELEMETRY_DISABLED: 1
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - uses: supabase/setup-cli@v3
+        with:
+          version: 2.116.0
+      - name: Start a clean local database and apply migrations
+        run: supabase db start
+      - name: Lint the local database
+        run: supabase db lint --local --level warning --fail-on warning
+      - name: Run pgTAP authorization tests
+        run: supabase test db
+      - name: Stop the local Supabase stack
+        if: always()
+        run: supabase stop --no-backup
+
+  deploy:
+    name: Deploy verified artifact
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: [build, database]
+    steps:
+      - uses: actions/configure-pages@v6
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const signInHref = `${import.meta.env.BASE_URL}signin/`
+---
+
+<BaseLayout title="Membership — Applied State" pageClass="utility-page">
+  <article class="utility-document">
+    <h1>MEMBERSHIP</h1>
+    <div class="utility-copy">
+      <p>Membership supports Applied State and provides access to additional research and material.</p>
+      <p>Members may also receive eligibility or priority for selected programmes when relevant.</p>
+      <p>Membership is currently by invitation.</p>
+      <p><a href={signInHref}>Member sign in</a></p>
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,93 @@
+---
+import MemberAccessGate from '../../components/states/MemberAccessGate.astro'
+import StatesNavigation from '../../components/states/StatesNavigation.astro'
+import StatesPageStyles from '../../components/states/StatesPageStyles.astro'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title="My States — Applied State" noindex pageClass="member-page">
+  <article class="states-surface" data-states-index>
+    <header class="states-surface-header">
+      <StatesNavigation />
+      <h1>MY STATES</h1>
+    </header>
+
+    <MemberAccessGate />
+
+    <div data-member-workspace hidden>
+      <section class="states-section" aria-labelledby="profile-heading">
+        <h2 id="profile-heading">PROFILE</h2>
+        <form class="states-form states-form-grid" data-profile-form novalidate>
+          <div class="states-field">
+            <label for="profile-name">NAME</label>
+            <input id="profile-name" maxlength="160" required />
+          </div>
+          <div class="states-form-row">
+            <div class="states-field">
+              <label for="profile-location">LOCATION</label>
+              <input id="profile-location" maxlength="240" />
+            </div>
+            <div class="states-field">
+              <label for="profile-practice">PRACTICE</label>
+              <input id="profile-practice" maxlength="1000" />
+            </div>
+          </div>
+          <div class="states-field">
+            <label for="profile-website">WEBSITE</label>
+            <input id="profile-website" type="url" inputmode="url" maxlength="2048" />
+          </div>
+          <div class="states-actions">
+            <button class="text-action" type="submit">SAVE PROFILE</button>
+          </div>
+          <p class="states-status" data-profile-status role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="states-section" aria-labelledby="new-state-heading" data-state-creation hidden>
+        <h2 id="new-state-heading">NEW STATE</h2>
+        <form class="states-form states-form-grid" data-state-create-form novalidate>
+          <div class="states-field">
+            <label for="new-state-title">TITLE</label>
+            <input id="new-state-title" maxlength="180" required />
+          </div>
+          <div class="states-field">
+            <label for="new-state-description">DESCRIPTION</label>
+            <textarea id="new-state-description" maxlength="4000"></textarea>
+          </div>
+          <div class="states-actions">
+            <button class="text-action" type="submit">CREATE STATE</button>
+          </div>
+          <p class="states-status" data-state-create-status role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="states-section" aria-labelledby="owned-states-heading">
+        <h2 id="owned-states-heading">OWNED</h2>
+        <ol class="states-list" data-owned-states></ol>
+        <p class="states-status" data-owned-states-empty hidden>No States yet.</p>
+      </section>
+
+      <section class="states-section" aria-labelledby="collaborations-heading">
+        <h2 id="collaborations-heading">COLLABORATIONS</h2>
+        <ol class="states-list" data-collaborative-states></ol>
+        <p class="states-status" data-collaborative-states-empty hidden>No accepted collaborations.</p>
+      </section>
+
+      <section class="states-section" aria-labelledby="invitations-heading">
+        <h2 id="invitations-heading">INVITATIONS</h2>
+        <ol class="collaborators-list" data-pending-invitations></ol>
+        <p class="states-status" data-pending-invitations-empty hidden>No pending invitations.</p>
+      </section>
+    </div>
+  </article>
+
+  <StatesPageStyles />
+
+  <script>
+    import { initMemberRuntime } from '../../scripts/member-runtime'
+    import { initStatesIndexPage } from '../../scripts/states-index'
+
+    void initMemberRuntime()
+    void initStatesIndexPage()
+  </script>
+</BaseLayout>

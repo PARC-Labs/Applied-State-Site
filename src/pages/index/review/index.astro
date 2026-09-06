@@ -1,0 +1,43 @@
+---
+import MemberAccessGate from '../../../components/states/MemberAccessGate.astro'
+import StatesNavigation from '../../../components/states/StatesNavigation.astro'
+import StatesPageStyles from '../../../components/states/StatesPageStyles.astro'
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title="Index Review — Applied State" noindex pageClass="member-page">
+  <article class="states-surface" data-index-review>
+    <header class="states-surface-header">
+      <StatesNavigation />
+      <h1>INDEX REVIEW</h1>
+    </header>
+
+    <MemberAccessGate />
+
+    <div data-member-workspace hidden>
+      <p class="states-status" data-review-access-status role="status" aria-live="polite"></p>
+
+      <section class="states-section" data-review-surface hidden aria-labelledby="submitted-states-heading">
+        <h2 id="submitted-states-heading">SUBMITTED</h2>
+        <ol class="review-list" data-submitted-states></ol>
+        <p class="states-status" data-submitted-states-empty hidden>No submitted States.</p>
+      </section>
+
+      <section class="states-section" data-review-surface hidden aria-labelledby="open-index-states-heading">
+        <h2 id="open-index-states-heading">OPEN IN INDEX</h2>
+        <ol class="review-list" data-open-index-states></ol>
+        <p class="states-status" data-open-index-states-empty hidden>No States are open in the Index.</p>
+      </section>
+    </div>
+  </article>
+
+  <StatesPageStyles />
+
+  <script>
+    import { initMemberRuntime } from '../../../scripts/member-runtime'
+    import { initIndexReviewPage } from '../../../scripts/states-review'
+
+    void initMemberRuntime()
+    void initIndexReviewPage()
+  </script>
+</BaseLayout>

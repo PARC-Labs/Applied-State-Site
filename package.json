@@ -2,23 +2,31 @@
   "name": "applied-state-site",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
+  "packageManager": "npm@11.8.0",
+  "engines": {
+    "node": ">=22.12 <26"
+  },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "typecheck": "tsc --noEmit"
+    "predev": "node scripts/validate-public-env.mjs --mode development",
+    "dev": "astro dev",
+    "prebuild": "node scripts/validate-public-env.mjs --mode production",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "typecheck": "astro check",
+    "test": "npm run test:unit",
+    "test:unit": "node --test tests/*.test.mjs",
+    "test:leakage": "node scripts/check-public-build.mjs",
+    "verify": "npm run check && npm run test:unit && npm run build && npm run test:leakage"
   },
   "dependencies": {
-    "@supabase/ssr": "0.12.5",
-    "@supabase/supabase-js": "2.112.4",
-    "next": "16.3.4",
-    "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "@astrojs/mdx": "8.0.0",
+    "@supabase/supabase-js": "2.114.0",
+    "astro": "7.2.10"
   },
   "devDependencies": {
-    "@types/node": "^22.15.0",
-    "@types/react": "^19.2.0",
-    "@types/react-dom": "^19.2.0",
-    "typescript": "7.0.2"
+    "@astrojs/check": "0.9.10",
+    "typescript": "6.0.3"
   }
 }

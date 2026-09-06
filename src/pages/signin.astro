@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const signInHref = `${import.meta.env.BASE_URL}signin/`
+const statesHref = `${import.meta.env.BASE_URL}states/`
+const indexHref = `${import.meta.env.BASE_URL}index/`
+const reviewHref = `${import.meta.env.BASE_URL}index/review/`
+---
+
+<BaseLayout title="Sign in — Applied State" noindex pageClass="utility-page">
+  <article class="utility-document">
+    <h1>SIGN IN</h1>
+    <div class="utility-copy">
+      <div data-member-visible="signed-out">
+        <p>Enter the email address attached to your Applied State membership.</p>
+
+        <form class="signin-form" action={signInHref} method="get" data-member-signin-form novalidate>
+          <label for="member-email">EMAIL</label>
+          <div class="signin-row">
+            <input
+              id="member-email"
+              type="email"
+              inputmode="email"
+              autocomplete="email"
+              maxlength="254"
+              required
+              data-member-email
+            />
+            <button class="text-action" type="submit">SEND SIGN-IN LINK</button>
+          </div>
+        </form>
+
+        <p class="form-status" data-member-status aria-live="polite"></p>
+      </div>
+
+      <div data-member-visible="signed-in" hidden>
+        <p>SIGNED IN</p>
+        <p data-member-visible="non-member" hidden>Membership access is not active.</p>
+        <p class="session-links">
+          <a href={statesHref} data-member-visible="active" hidden>STATES</a>
+          <a href={indexHref} data-member-visible="index" hidden>INDEX</a>
+          <a href={reviewHref} data-member-visible="staff" hidden>REVIEW</a>
+        </p>
+      </div>
+    </div>
+  </article>
+
+  <script>
+    import { initMemberRuntime } from '../scripts/member-runtime'
+
+    void initMemberRuntime()
+  </script>
+</BaseLayout>

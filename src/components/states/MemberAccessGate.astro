@@ -1,0 +1,11 @@
+---
+const signInHref = `${import.meta.env.BASE_URL}signin/`
+---
+
+<div class="member-access-gate" data-member-access-gate>
+  <p data-member-access-status role="status" aria-live="polite">Checking member access.</p>
+  <p data-member-access-signin hidden>
+    <a href={signInHref}>SIGN IN</a>
+  </p>
+  <noscript>Member tools require JavaScript.</noscript>
+</div>
