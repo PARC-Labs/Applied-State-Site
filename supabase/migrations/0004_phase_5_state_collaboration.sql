@@ -310,7 +310,8 @@ begin
   end if;
 
   update public.state_collaborators
-  set status = case when accept then 'accepted' else 'declined' end,
+  set status = (case when accept then 'accepted' else 'declined' end)
+        ::public.state_collaborator_status,
       responded_at = now()
   where state_id = target_state_id
     and user_id = actor_id;

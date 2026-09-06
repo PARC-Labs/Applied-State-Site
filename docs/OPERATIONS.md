@@ -60,7 +60,7 @@ Run locally where possible:
 npm ci
 npm run verify
 supabase db start
-supabase db lint --local --level warning
+supabase db lint --local --level warning --fail-on warning
 supabase test db
 supabase stop --no-backup
 ```

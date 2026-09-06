@@ -55,7 +55,7 @@ jobs:
       - name: Start a clean local database and apply migrations
         run: supabase db start
       - name: Lint the local database
-        run: supabase db lint --local --level warning
+        run: supabase db lint --local --level warning --fail-on warning
       - name: Run pgTAP authorization tests
         run: supabase test db
       - name: Stop the local Supabase stack
