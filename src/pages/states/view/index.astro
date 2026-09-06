@@ -1,0 +1,126 @@
+---
+import MemberAccessGate from '../../../components/states/MemberAccessGate.astro'
+import StatesNavigation from '../../../components/states/StatesNavigation.astro'
+import StatesPageStyles from '../../../components/states/StatesPageStyles.astro'
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title="State — Applied State" noindex pageClass="member-page">
+  <article class="states-surface" data-state-view data-state-view-mode="private">
+    <header class="states-surface-header">
+      <StatesNavigation />
+    </header>
+
+    <MemberAccessGate />
+
+    <div class="state-document" data-member-workspace hidden>
+      <header>
+        <h1 data-state-title>STATE</h1>
+        <p class="state-byline" data-state-owner></p>
+        <p class="state-lifecycle" data-state-lifecycle></p>
+        <p class="state-description" data-state-description hidden></p>
+      </header>
+
+      <p class="states-status" data-state-status role="status" aria-live="polite"></p>
+
+      <section class="states-section state-document__controls" data-state-edit-section hidden aria-labelledby="edit-state-heading">
+        <h2 id="edit-state-heading">EDIT STATE</h2>
+        <form class="states-form states-form-grid" data-state-edit-form novalidate>
+          <div class="states-field">
+            <label for="state-title">TITLE</label>
+            <input id="state-title" maxlength="180" required />
+          </div>
+          <div class="states-field">
+            <label for="state-description">DESCRIPTION</label>
+            <textarea id="state-description" maxlength="4000"></textarea>
+          </div>
+          <div class="states-actions">
+            <button class="text-action" type="submit">SAVE</button>
+          </div>
+          <p class="states-status" data-state-edit-status role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="states-section" data-state-lifecycle-section hidden aria-labelledby="state-lifecycle-heading">
+        <h2 id="state-lifecycle-heading">EDITORIAL REVIEW</h2>
+        <div class="states-actions">
+          <button class="text-action" type="button" data-state-submit>SUBMIT</button>
+          <button class="text-action" type="button" data-state-withdraw hidden>WITHDRAW</button>
+        </div>
+        <p class="states-status" data-state-lifecycle-status role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="states-section" data-collaboration-section hidden aria-labelledby="state-collaboration-heading">
+        <h2 id="state-collaboration-heading">COLLABORATION</h2>
+        <form class="states-form states-form-grid" data-invite-form novalidate>
+          <div class="states-field">
+            <label for="invite-email">MEMBER EMAIL</label>
+            <input id="invite-email" type="email" inputmode="email" autocomplete="email" maxlength="254" required />
+          </div>
+          <div class="states-actions">
+            <button class="text-action" type="submit">INVITE</button>
+          </div>
+          <p class="states-status" data-invite-status role="status" aria-live="polite"></p>
+        </form>
+        <ol class="collaborators-list states-section--compact" data-state-collaborators></ol>
+      </section>
+
+      <section class="states-section state-document__body" aria-labelledby="materials-heading">
+        <h2 id="materials-heading">MATERIAL</h2>
+        <ol class="materials-list" data-state-materials></ol>
+        <p class="states-status" data-state-materials-empty hidden>No material yet.</p>
+      </section>
+
+      <section class="states-section" data-add-material-section hidden aria-labelledby="add-material-heading">
+        <h2 id="add-material-heading">ADD</h2>
+        <form class="states-form states-form-grid" data-add-material-form novalidate>
+          <div class="states-field">
+            <label for="material-kind">TYPE</label>
+            <select id="material-kind">
+              <option value="url">URL</option>
+              <option value="text">PLAIN TEXT</option>
+            </select>
+          </div>
+          <div class="states-field">
+            <label for="material-title">TITLE</label>
+            <input id="material-title" maxlength="180" />
+          </div>
+          <div class="states-field" data-material-url-field>
+            <label for="material-url">URL</label>
+            <input id="material-url" type="url" inputmode="url" maxlength="2048" />
+          </div>
+          <div class="states-field" data-material-body-field hidden>
+            <label for="material-body">TEXT</label>
+            <textarea id="material-body" maxlength="20000"></textarea>
+          </div>
+          <div class="states-field">
+            <label for="material-annotation">ANNOTATION</label>
+            <textarea id="material-annotation" maxlength="2000"></textarea>
+          </div>
+          <div class="states-actions">
+            <button class="text-action" type="submit">ADD MATERIAL</button>
+          </div>
+          <p class="states-status" data-add-material-status role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="states-section states-danger-zone" data-delete-state-section hidden aria-labelledby="delete-state-heading">
+        <h2 id="delete-state-heading">REMOVE STATE</h2>
+        <div class="states-actions">
+          <button class="text-action" type="button" data-delete-state>DELETE</button>
+        </div>
+        <p class="states-status" data-delete-state-status role="status" aria-live="polite"></p>
+      </section>
+    </div>
+  </article>
+
+  <StatesPageStyles />
+
+  <script>
+    import { initMemberRuntime } from '../../../scripts/member-runtime'
+    import { initStateViewPage } from '../../../scripts/states-view'
+
+    void initMemberRuntime()
+    void initStateViewPage()
+  </script>
+</BaseLayout>

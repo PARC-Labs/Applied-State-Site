@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const homeHref = import.meta.env.BASE_URL
+---
+
+<BaseLayout title="Not found — Applied State" noindex pageClass="utility-page">
+  <article class="utility-document">
+    <h1>NOT FOUND</h1>
+    <div class="utility-copy">
+      <p>The requested page does not exist.</p>
+      <p><a href={homeHref}>Applied State</a></p>
+    </div>
+  </article>
+</BaseLayout>

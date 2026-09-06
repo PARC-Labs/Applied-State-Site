@@ -1,0 +1,10 @@
+---
+const base = import.meta.env.BASE_URL
+const href = (path: string) => `${base}${path}/`
+---
+
+<nav class="states-navigation" aria-label="Member research navigation">
+  <a href={href('states')}>MY STATES</a>
+  <a href={href('index')}>INDEX</a>
+  <a href={href('index/review')} data-staff-navigation hidden>REVIEW</a>
+</nav>

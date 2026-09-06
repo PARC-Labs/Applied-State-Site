@@ -1,0 +1,18 @@
+---
+interface Props {
+  heading?: boolean
+}
+
+const { heading = false } = Astro.props
+const homeHref = import.meta.env.BASE_URL
+---
+
+<header class="site-header">
+  {heading ? (
+    <h1 class="site-wordmark-heading">
+      <a class="site-wordmark" href={homeHref} aria-label="Applied State home">APPLIED STATE</a>
+    </h1>
+  ) : (
+    <a class="site-wordmark" href={homeHref} aria-label="Applied State home">APPLIED STATE</a>
+  )}
+</header>

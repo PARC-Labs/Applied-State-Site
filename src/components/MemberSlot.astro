@@ -1,0 +1,19 @@
+---
+interface Props {
+  slotKey: string
+}
+
+const { slotKey } = Astro.props
+
+if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slotKey)) {
+  throw new Error(`Invalid member slot key: ${slotKey}`)
+}
+---
+
+<div class="member-slot" data-member-slot={slotKey} hidden></div>
+
+<script>
+  import { initMemberRuntime } from '../scripts/member-runtime'
+
+  void initMemberRuntime()
+</script>

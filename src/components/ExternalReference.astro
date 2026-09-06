@@ -1,0 +1,18 @@
+---
+interface Props {
+  href: string
+  label: string
+  kind?: 'LINK' | 'GITHUB'
+}
+
+const { href, label, kind = 'LINK' } = Astro.props
+const url = new URL(href)
+
+if (url.protocol !== 'https:') {
+  throw new Error(`External references must use HTTPS: ${href}`)
+}
+---
+
+<p class="editorial-object editorial-object--narrow reference">
+  <a href={href} rel="noreferrer">{kind} — {label} ↗</a>
+</p>

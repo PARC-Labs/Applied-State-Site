@@ -1,0 +1,29 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content'
+import InstanceLayout from '../layouts/InstanceLayout.astro'
+
+export async function getStaticPaths() {
+  const entries = await getCollection('instances', ({ data }) => data.status !== 'draft')
+
+  return entries.map((entry) => ({
+    params: { instance: entry.data.code.toLowerCase() },
+    props: { entry },
+  }))
+}
+
+interface Props {
+  entry: CollectionEntry<'instances'>
+}
+
+const { entry } = Astro.props
+const { Content } = await render(entry)
+---
+
+<InstanceLayout
+  code={entry.data.code}
+  title={entry.data.title}
+  description={entry.data.summary}
+  memberEnhanced={entry.data.memberEnhanced}
+>
+  <Content />
+</InstanceLayout>

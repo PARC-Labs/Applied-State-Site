@@ -1,0 +1,35 @@
+---
+import MemberAccessGate from '../../components/states/MemberAccessGate.astro'
+import StatesNavigation from '../../components/states/StatesNavigation.astro'
+import StatesPageStyles from '../../components/states/StatesPageStyles.astro'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+---
+
+<BaseLayout title="Index — Applied State" noindex pageClass="member-page">
+  <article class="states-surface" data-curated-index>
+    <header class="states-surface-header">
+      <StatesNavigation />
+      <h1>INDEX</h1>
+    </header>
+
+    <MemberAccessGate />
+
+    <div data-member-workspace hidden>
+      <section class="states-section" aria-labelledby="opened-states-heading">
+        <h2 id="opened-states-heading">OPENED STATES</h2>
+        <ol class="states-list" data-index-states></ol>
+        <p class="states-status" data-index-states-empty hidden>No States are open in the Index.</p>
+      </section>
+    </div>
+  </article>
+
+  <StatesPageStyles />
+
+  <script>
+    import { initMemberRuntime } from '../../scripts/member-runtime'
+    import { initCuratedIndexPage } from '../../scripts/states-curated-index'
+
+    void initMemberRuntime()
+    void initCuratedIndexPage()
+  </script>
+</BaseLayout>

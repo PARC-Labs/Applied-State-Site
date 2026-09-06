@@ -1,0 +1,42 @@
+---
+import SiteFooter from '../components/SiteFooter.astro'
+import SiteHeader from '../components/SiteHeader.astro'
+import '../styles/global.css'
+
+interface Props {
+  title?: string
+  description?: string
+  noindex?: boolean
+  pageClass?: string
+  homeHeading?: boolean
+}
+
+const {
+  title = 'Applied State',
+  description = 'Applied State is a distributed art and research institution.',
+  noindex = false,
+  pageClass,
+  homeHeading = false,
+} = Astro.props
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="theme-color" content="#ffffff" />
+    <title>{title}</title>
+  </head>
+  <body class={pageClass}>
+    <div class="site-shell">
+      <SiteHeader heading={homeHeading} />
+      <main class="site-main">
+        <slot />
+      </main>
+      <SiteFooter />
+    </div>
+  </body>
+</html>

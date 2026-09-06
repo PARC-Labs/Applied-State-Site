@@ -1,0 +1,265 @@
+<style is:global>
+  .states-surface {
+    padding-top: clamp(96px, 17vh, 210px);
+  }
+
+  .states-surface-header,
+  .states-section,
+  .state-document,
+  .member-access-gate {
+    width: min(100%, 760px);
+  }
+
+  .states-navigation {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    margin-bottom: 44px;
+    color: var(--muted);
+    font-size: var(--text-xs);
+    letter-spacing: 0.04em;
+  }
+
+  .states-surface h1,
+  .states-surface h2,
+  .states-surface h3,
+  .states-surface legend {
+    margin: 0;
+    font-weight: 400;
+  }
+
+  .states-surface h1 {
+    font-size: var(--text-lg);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+  }
+
+  .states-surface h2,
+  .states-surface legend {
+    font-size: var(--text-sm);
+    line-height: 1.2;
+    letter-spacing: 0.025em;
+  }
+
+  .states-surface h3 {
+    font-size: var(--text);
+    line-height: 1.3;
+  }
+
+  .states-section {
+    margin-top: clamp(76px, 11vh, 140px);
+  }
+
+  .states-section--compact {
+    margin-top: 44px;
+  }
+
+  .states-section > h2,
+  .states-section > legend {
+    margin-bottom: 28px;
+  }
+
+  .member-access-gate {
+    margin-top: 52px;
+    color: var(--muted);
+    font-size: var(--text-sm);
+  }
+
+  .member-access-gate p + p {
+    margin-top: 16px;
+  }
+
+  .states-list,
+  .materials-list,
+  .collaborators-list,
+  .review-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .states-list > li + li,
+  .materials-list > li + li,
+  .collaborators-list > li + li,
+  .review-list > li + li {
+    margin-top: 42px;
+  }
+
+  .state-list-entry,
+  .material-entry,
+  .collaborator-entry,
+  .review-entry {
+    min-width: 0;
+  }
+
+  .state-list-entry__title,
+  .material-entry__title,
+  .review-entry__title {
+    font-size: var(--text-lg);
+    line-height: 1.14;
+    letter-spacing: -0.02em;
+  }
+
+  .state-list-entry__description,
+  .material-entry__body,
+  .state-description {
+    max-width: var(--measure);
+    margin-top: 12px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .state-list-entry__meta,
+  .material-entry__meta,
+  .state-byline,
+  .state-lifecycle,
+  .states-help,
+  .states-status,
+  .collaborator-entry__meta {
+    margin-top: 9px;
+    color: var(--muted);
+    font-size: var(--text-xs);
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+  }
+
+  .states-form,
+  .states-fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .states-form-grid {
+    display: grid;
+    gap: 24px;
+  }
+
+  .states-form-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .states-field {
+    min-width: 0;
+  }
+
+  .states-field label,
+  .states-field-label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--muted);
+    font-size: var(--text-xs);
+    letter-spacing: 0.04em;
+  }
+
+  .states-field input,
+  .states-field textarea,
+  .states-field select {
+    width: 100%;
+    min-width: 0;
+    padding: 8px 0;
+    border: 0;
+    border-bottom: 1px solid var(--ink);
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+  }
+
+  .states-field textarea {
+    min-height: 108px;
+    resize: vertical;
+  }
+
+  .states-field input:focus-visible,
+  .states-field textarea:focus-visible,
+  .states-field select:focus-visible {
+    outline: 1px solid var(--ink);
+    outline-offset: 4px;
+  }
+
+  .states-actions,
+  .material-entry__actions,
+  .collaborator-entry__actions,
+  .review-entry__actions,
+  .connect-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 22px;
+    align-items: baseline;
+    margin-top: 24px;
+  }
+
+  .states-actions .text-action,
+  .material-entry__actions .text-action,
+  .collaborator-entry__actions .text-action,
+  .review-entry__actions .text-action,
+  .connect-controls .text-action {
+    font-size: var(--text-sm);
+    letter-spacing: 0.015em;
+  }
+
+  .states-actions .text-action[disabled],
+  .material-entry__actions .text-action[disabled],
+  .collaborator-entry__actions .text-action[disabled],
+  .review-entry__actions .text-action[disabled],
+  .connect-controls .text-action[disabled] {
+    cursor: default;
+    opacity: 0.45;
+    text-decoration: none;
+  }
+
+  .state-document {
+    margin-top: 50px;
+  }
+
+  .state-document h1 {
+    overflow-wrap: anywhere;
+  }
+
+  .state-document__body {
+    margin-top: clamp(68px, 10vh, 130px);
+  }
+
+  .state-document__controls {
+    margin-top: 52px;
+  }
+
+  .material-entry a {
+    overflow-wrap: anywhere;
+  }
+
+  .material-entry__body {
+    line-height: 1.55;
+  }
+
+  .connect-controls select {
+    max-width: min(100%, 320px);
+    padding: 4px 0;
+    border: 0;
+    border-bottom: 1px solid var(--ink);
+    border-radius: 0;
+    background: var(--paper);
+    color: inherit;
+    font: inherit;
+    font-size: var(--text-sm);
+  }
+
+  .states-danger-zone {
+    margin-top: clamp(100px, 15vh, 190px);
+  }
+
+  @media (max-width: 560px) {
+    .states-form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .state-list-entry__title,
+    .material-entry__title,
+    .review-entry__title {
+      font-size: 20px;
+    }
+  }
+</style>
