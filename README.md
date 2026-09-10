@@ -69,6 +69,14 @@ The browser intentionally uses `shouldCreateUser: false`. Authentication alone n
 
 Each valid `ASxx` entry in `src/content/instances/` becomes an index item and a static route. Its MDX body owns the authored vertical sequence. Do not put private labels, titles, URLs, filenames, captions, identities, or payloads in MDX or `public/`.
 
+An instance can use a public Are.na channel as its public authoring surface. Keep unfinished research in a **Private** `AS01 — WORKING` channel and publish selected material through a **Closed** `AS01 — PUBLISHED` channel (publicly readable, editable only by its owner and collaborators). Add the Published channel's full URL to that instance's frontmatter:
+
+```yaml
+arenaChannel: https://www.are.na/your-account/as01-published
+```
+
+The AS page fetches the Are.na V3 API in the browser and renders supported blocks in the order returned by the channel: text, images, links, embeds, attachments, and connected channels. Are.na HTML and embeds are never injected; text is rendered as text, media previews link to their HTTPS source, and unknown block types are omitted. The page remains usable when Are.na is unavailable and links back to the original channel. Up to 300 items are rendered per page view to bound anonymous API use; larger channels continue through the source link. A public or closed channel needs no API token. A private channel cannot power a public AS page. See [`docs/ARENA_AUTHORING.md`](docs/ARENA_AUTHORING.md) for the editorial workflow and the boundary between public AS pages and private member States.
+
 A `MemberSlot` contains only an opaque key such as `as01-film-001`. Authorized resources are fetched from `as_member_resources` at runtime. Private Storage objects are fetched only after RLS authorization and, where needed, exposed with short-lived signed URLs. Signed URLs remain usable until expiry and are access control, not DRM.
 
 Member-authored text is rendered as text, not arbitrary HTML. External links are restricted to safe schemes. States are private by default; pending invitations grant no access; only accepted collaborators gain access to the specific State; only protected staff operations can open a submitted State into the shared member Index. The Index is not public-web publication.

@@ -205,6 +205,39 @@ figure {
   margin-top: 0;
 }
 
+.arena-channel-contents > .editorial-object:first-child {
+  margin-top: 0;
+}
+
+.arena-channel-status {
+  width: min(100%, var(--measure));
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+.arena-object img {
+  width: 100%;
+}
+
+.arena-image-link {
+  display: block;
+}
+
+.arena-caption p + p,
+.arena-reference-description {
+  margin-top: 0.55em;
+}
+
+.arena-object--text p,
+.arena-reference-description p {
+  white-space: pre-line;
+}
+
+.arena-object--text p + p,
+.arena-reference-description p + p {
+  margin-top: 1em;
+}
+
 .editorial-object--narrow {
   width: min(100%, var(--measure));
 }

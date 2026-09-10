@@ -1,0 +1,39 @@
+---
+import { parseArenaChannelReference } from '../lib/arena'
+
+interface Props {
+  channel: string
+  instanceCode: string
+}
+
+const { channel, instanceCode } = Astro.props
+const reference = parseArenaChannelReference(channel)
+
+if (!reference) {
+  throw new Error(`Invalid Are.na channel for ${instanceCode}. Use its full https://www.are.na/... URL.`)
+}
+---
+
+<section
+  class="arena-channel"
+  data-arena-channel={reference.slug}
+  data-arena-channel-url={reference.webUrl}
+  aria-label={`${instanceCode} material from Are.na`}
+  aria-busy="true"
+>
+  <p class="arena-channel-status" data-arena-status role="status" aria-live="polite">
+    Loading material…
+  </p>
+  <div class="arena-channel-contents" data-arena-contents></div>
+  <noscript>
+    <p class="arena-channel-status">
+      <a href={reference.webUrl} rel="noopener noreferrer">View this channel on Are.na ↗</a>
+    </p>
+  </noscript>
+</section>
+
+<script>
+  import { initArenaChannels } from '../scripts/arena-channel'
+
+  void initArenaChannels()
+</script>

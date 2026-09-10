@@ -1,5 +1,6 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content'
+import ArenaChannel from '../components/ArenaChannel.astro'
 import InstanceLayout from '../layouts/InstanceLayout.astro'
 
 export async function getStaticPaths() {
@@ -25,5 +26,8 @@ const { Content } = await render(entry)
   description={entry.data.summary}
   memberEnhanced={entry.data.memberEnhanced}
 >
+  {entry.data.arenaChannel && (
+    <ArenaChannel channel={entry.data.arenaChannel} instanceCode={entry.data.code} />
+  )}
   <Content />
 </InstanceLayout>
