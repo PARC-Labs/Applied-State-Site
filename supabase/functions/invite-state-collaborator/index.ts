@@ -13,7 +13,7 @@ declare const Deno: {
 const GENERIC_MESSAGE =
   "If that address belongs to an eligible member, the invitation has been recorded.";
 const DEFAULT_ALLOWED_ORIGINS = [
-  "https://parc-labs.github.io",
+  "https://appliedstate.xyz",
   "http://localhost:4321",
   "http://127.0.0.1:4321",
 ];

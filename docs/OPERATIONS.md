@@ -29,11 +29,11 @@ they are not copied into GitHub Actions or the static application.
 3. Review pending migrations with `supabase db push --dry-run`.
 4. Apply the versioned migrations with `supabase db push`.
 5. Deploy `invite-state-collaborator` with `supabase functions deploy`.
-   If the public site moves away from its GitHub Pages origin, set the
-   function's comma-separated `ALLOWED_ORIGINS` secret to the exact production
-   origin and any explicitly approved development origins.
-6. In Supabase Auth, keep public sign-up disabled and configure the production
-   site URL plus the exact `/signin/` callback URL. Do not use wildcard callback
+   Set the function's comma-separated `ALLOWED_ORIGINS` secret to
+   `https://appliedstate.xyz` and any explicitly approved development origins.
+6. In Supabase Auth, keep public sign-up disabled, set the production site URL
+   to `https://appliedstate.xyz`, and allow the exact
+   `https://appliedstate.xyz/signin/` callback URL. Do not use wildcard callback
    hosts in production.
 7. Configure a custom SMTP provider and conservative Auth rate limits.
    Keep Auth CAPTCHA disabled for this version: the sign-in form does not yet
@@ -44,8 +44,13 @@ they are not copied into GitHub Actions or the static application.
 8. Add only the public Supabase URL and publishable key to GitHub repository
    variables.
 9. In GitHub repository settings, set Pages → Build and deployment → Source to
-   **GitHub Actions**.
-10. Run the release gates, then deploy the verified commit from `main`.
+   **GitHub Actions**, then set the custom domain to `appliedstate.xyz`.
+10. At the authoritative DNS provider, point the apex domain and `www` host to
+    GitHub Pages using GitHub's current documented record values. Remove
+    conflicting parking records, verify the domain at the `PARC-Labs`
+    organization when possible, and enable HTTPS after GitHub issues the
+    certificate.
+11. Run the release gates, then deploy the verified commit from `main`.
 
 Reference: [Supabase database migrations](https://supabase.com/docs/guides/deployment/database-migrations),
 [Edge Function deployment](https://supabase.com/docs/guides/functions/deploy),
