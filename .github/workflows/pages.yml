@@ -22,8 +22,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ASTRO_TELEMETRY_DISABLED: 1
-      SITE_URL: https://parc-labs.github.io
-      BASE_PATH: /Applied-State-Site
+      SITE_URL: https://appliedstate.xyz
+      BASE_PATH: /
       PUBLIC_SUPABASE_URL: ${{ vars.PUBLIC_SUPABASE_URL }}
       PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ vars.PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
     steps:

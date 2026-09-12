@@ -35,7 +35,7 @@ npm run dev
 Local Pages-equivalent paths can be checked with:
 
 ```bash
-SITE_URL=https://parc-labs.github.io BASE_PATH=/Applied-State-Site npm run build
+SITE_URL=https://appliedstate.xyz BASE_PATH=/ npm run build
 npm run test:leakage
 ```
 
@@ -114,7 +114,7 @@ Production deploys from `main` through GitHub Actions:
 
 1. In repository settings, choose **Pages → Build and deployment → GitHub Actions**.
 2. To activate member functions, add both repository variables named `PUBLIC_SUPABASE_URL` and `PUBLIC_SUPABASE_PUBLISHABLE_KEY`. They are browser-visible by design; never substitute a secret/service-role key. Omit both for a public-only deployment that fails closed; never configure only one.
-3. Keep the workflow's `SITE_URL` and `BASE_PATH` aligned with the Pages address (`https://parc-labs.github.io/Applied-State-Site/`) until a verified custom domain replaces it.
+3. Set the Pages custom domain to `appliedstate.xyz`, configure both the apex and `www` DNS records, and enable HTTPS after GitHub issues the certificate. The workflows build for `https://appliedstate.xyz/` with the root base path.
 4. Push or merge to `main`.
 
 `.github/workflows/ci.yml` runs application and database gates. Only a successful `CI` run on `main` starts `.github/workflows/pages.yml`; the Pages workflow checks out that exact commit, repeats the application and database security gates, and deploys only when both pass. It warns and produces a public-only build when both Supabase variables are absent. The workflow rejects placeholder or partial repository values, and the prebuild validator rejects partial or unsafe configuration. Manual Pages runs are restricted to `main` and run the same gates.
