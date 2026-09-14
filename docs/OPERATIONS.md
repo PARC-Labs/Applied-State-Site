@@ -57,6 +57,34 @@ Reference: [Supabase database migrations](https://supabase.com/docs/guides/deplo
 [Auth rate limits](https://supabase.com/docs/guides/auth/rate-limits), and
 [CAPTCHA protection](https://supabase.com/docs/guides/auth/auth-captcha).
 
+## Diagnosing a missing sign-in email
+
+The browser's conditional response does not confirm delivery. It intentionally
+looks the same for provisioned and unknown accounts, SMTP failures and
+account-dependent rate limits. An SDK-returned network failure with no HTTP
+response shows the retry state; raw provider errors never appear in the page.
+
+1. In production Auth logs, inspect one authorized test request. Confirm that
+   its email belongs to a provisioned Auth user and that its membership
+   entitlement is active. Keep public sign-up disabled.
+2. Confirm the Site URL is `https://appliedstate.xyz` and the exact redirect
+   `https://appliedstate.xyz/signin/` is allowed. Start and finish the PKCE
+   sign-in flow in the same browser; request a new link on the phone when
+   testing on the phone.
+3. Check SMTP configuration and delivery logs. Supabase's default sender only
+   delivers to project-team addresses and is rate limited; production member
+   email needs a configured custom SMTP provider. Do not add members to the
+   Supabase administrative team as a delivery workaround.
+4. Check provider error codes for disabled email login, CAPTCHA configuration,
+   SMTP delivery failures and rate limits. Never log tokens or display account
+   existence in the public form.
+5. Record completion only after the email arrives, its link returns to
+   production, and the authorized member state loads.
+
+Reference: [Auth error codes](https://supabase.com/docs/guides/auth/debugging/error-codes),
+[custom SMTP](https://supabase.com/docs/guides/auth/auth-smtp), and
+[PKCE flow](https://supabase.com/docs/guides/auth/sessions/pkce-flow).
+
 ## Release gates
 
 Run locally where possible:
