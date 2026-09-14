@@ -116,7 +116,7 @@ function magicLinkRedirectUrl(): string | undefined {
 
 /**
  * Request an invite-only magic link without exposing whether an email exists.
- * Provider errors deliberately map to the same accepted state as successful
+ * HTTP provider errors deliberately map to the same accepted state as successful
  * requests; the UI must not become an account-enumeration oracle.
  */
 export async function requestMagicLink(
@@ -129,13 +129,21 @@ export async function requestMagicLink(
   if (!client) return "unavailable";
 
   try {
-    await client.auth.signInWithOtp({
+    const { error } = await client.auth.signInWithOtp({
       email: normalizedEmail,
       options: {
         shouldCreateUser: false,
         emailRedirectTo: magicLinkRedirectUrl(),
       },
     });
+
+    // The SDK returns fetch failures as errors instead of necessarily throwing.
+    // Only a failure without an HTTP response is safe to distinguish here.
+    // Server/SMTP failures and rate limits may occur only for existing accounts,
+    // so exposing those would undermine the generic account response below.
+    if (error?.name === "AuthRetryableFetchError" && error.status === 0) {
+      return "unavailable";
+    }
 
     return "accepted";
   } catch {

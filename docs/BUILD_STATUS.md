@@ -30,3 +30,16 @@ A phase is complete only when:
 3. relevant allow/deny security tests pass;
 4. CI is green;
 5. no private fixture data appears in the static build.
+
+## Verified release evidence — 14 September 2026
+
+- Production domain change merged as `d3d5aad` on 12 September.
+- [CI 34690828889](https://github.com/PARC-Labs/Applied-State-Site/actions/runs/34690828889)
+  and [Pages deployment 34690939009](https://github.com/PARC-Labs/Applied-State-Site/actions/runs/34690939009)
+  succeeded for that release.
+- `https://appliedstate.xyz/` loads the public site over HTTPS;
+  `https://www.appliedstate.xyz/` redirects to the apex domain.
+- The GitHub organization verification TXT record exists in DNS. GitHub's
+  final organization verification status has not been inspected.
+- A successful production magic-link delivery and member session are still
+  unverified. These observations do not satisfy every phase exit criterion.

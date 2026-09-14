@@ -365,7 +365,7 @@ function bindSigninForms(): void {
         status.textContent = "Sign-in unavailable. Try again.";
       } else {
         status.textContent =
-          "If access is available for this email, a sign-in link has been sent.";
+          "Check your inbox for a sign-in link. Links are sent only to eligible members. If nothing arrives, try again later.";
       }
 
       if (submit) submit.disabled = false;
