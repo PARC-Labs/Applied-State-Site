@@ -83,7 +83,10 @@ export function getBrowserSupabaseClient(): BrowserSupabaseClient | null {
     auth: {
       autoRefreshToken: true,
       detectSessionInUrl: true,
-      flowType: "pkce",
+      // This is a browser-only static site. Administrator invite links cannot
+      // carry the browser verifier required by PKCE, so use Supabase's implicit
+      // flow and let the client recover the session from the redirect fragment.
+      flowType: "implicit",
       persistSession: true,
     },
   });

@@ -18,7 +18,12 @@ test('magic-link requests preserve invite-only privacy and report transport fail
       enforce: 'pre',
       resolveId(id) { if (id === '@supabase/supabase-js') return '\0fake-auth-client' },
       load(id) {
-        if (id === '\0fake-auth-client') return 'export const createClient = () => globalThis.__authTestClient'
+        if (id === '\0fake-auth-client') {
+          return `export const createClient = (...args) => {
+            globalThis.__authClientArgs = args
+            return globalThis.__authTestClient
+          }`
+        }
       },
     }],
     build: {
@@ -32,6 +37,7 @@ test('magic-link requests preserve invite-only privacy and report transport fail
   assert.ok(chunk)
   const previousWindow = globalThis.window
   const previousClient = globalThis.__authTestClient
+  const previousClientArgs = globalThis.__authClientArgs
   const requests = []
   let outcome = { error: null }
   globalThis.window = { location: { href: 'https://appliedstate.xyz/signin/?ignored=1' } }
@@ -45,6 +51,16 @@ test('magic-link requests preserve invite-only privacy and report transport fail
   try {
     const { requestMagicLink, getBrowserSupabaseClient } = await import(`data:text/javascript;base64,${Buffer.from(chunk.code).toString('base64')}`)
     assert.equal(getBrowserSupabaseClient(), globalThis.__authTestClient, 'Auth must be mocked before any request')
+    assert.deepEqual(globalThis.__authClientArgs.slice(0, 2), [
+      'https://auth-test.supabase.co',
+      'sb_publishable_auth_test',
+    ])
+    assert.deepEqual(globalThis.__authClientArgs[2].auth, {
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+      flowType: 'implicit',
+      persistSession: true,
+    })
     await t.test('normalizes the address, disables signup and uses the production callback', async () => {
       assert.equal(await requestMagicLink('  MEMBER@EXAMPLE.TEST  '), 'accepted')
       assert.deepEqual(requests.at(-1), {
@@ -87,5 +103,7 @@ test('magic-link requests preserve invite-only privacy and report transport fail
     else globalThis.window = previousWindow
     if (previousClient === undefined) delete globalThis.__authTestClient
     else globalThis.__authTestClient = previousClient
+    if (previousClientArgs === undefined) delete globalThis.__authClientArgs
+    else globalThis.__authClientArgs = previousClientArgs
   }
 })
