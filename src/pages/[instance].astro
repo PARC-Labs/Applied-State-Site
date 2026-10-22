@@ -26,8 +26,8 @@ const { Content } = await render(entry)
   description={entry.data.summary}
   memberEnhanced={entry.data.memberEnhanced}
 >
+  <Content />
   {entry.data.arenaChannel && (
     <ArenaChannel channel={entry.data.arenaChannel} instanceCode={entry.data.code} />
   )}
-  <Content />
 </InstanceLayout>
