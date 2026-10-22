@@ -4,9 +4,140 @@ title: ARENA
 status: published
 memberEnhanced: true
 arenaChannel: https://www.are.na/applied-state/as01-published
+summary: A critical study of evidence, dispute and authority in the ARENA protocol.
 ---
 
+import Text from '../../components/Text.astro'
+import ExternalReference from '../../components/ExternalReference.astro'
 import MemberSlot from '../../components/MemberSlot.astro'
+
+<Text size="opening">
+
+The Anatomy of ARENA
+
+A study of how small institutions establish rules, determine what has happened, and make decisions binding. ARENA, a proposed protocol for governing bounded physical environments, provides the case.
+
+</Text>
+
+<Text>
+
+## 01 / The question of authority
+
+Most proposals for new institutions begin with an account of how people ought to live together. ARENA begins with a narrower question: what minimum structure allows people to coordinate a physical undertaking without leaving its rules entirely to custom, personality, or improvisation?
+
+Its proposed unit is an **Arena**: a bounded site or operational environment with a defined purpose, explicit membership, identifiable authority, control of shared resources, a dispute process, and conditions for renewal and dissolution. Examples might include a workshop, a vessel, a field station, a farm, or a temporary settlement. The physical boundary matters. It distinguishes a governance arrangement with practical obligations from an online association whose consequences may remain mostly reputational.
+
+The protocol is being developed by Anthem as a set of specifications and reference implementations. The associated Registry is intended to record recognition, status and version information for individual Arenas. The present design is stewarded and tokenless. It does not claim to replace property law, adjudicate every dispute on-chain, or establish sovereign jurisdiction.
+
+These limitations are consequential. They make ARENA a useful subject for research into a recurring problem: **the distance between a rule, a recorded claim, a justified decision, and an enforceable result**.
+
+## 02 / A governance system has more than one layer
+
+The phrase “governance protocol” can imply that governance is reducible to software. ARENA's design suggests otherwise. At least six distinguishable layers are involved.
+
+**Boundary.** There must be a defined place and a comprehensible statement of its purpose. Without these, membership and obligation have no stable object.
+
+**Rules.** A charter must specify authority, contributions, custody, entry, removal, dispute procedure and dissolution. Written terms reduce ambiguity; they cannot eliminate disagreement about their meaning.
+
+**Evidence.** Events must become records: observations, logs, documents, images, attestations, timestamps, and accounts from participants. The existence of a record is not proof that its contents are true.
+
+**Judgment.** An authorised process must weigh contradictory evidence, interpret the charter, decide what is material, and produce an outcome. This process is institutional rather than merely computational.
+
+**Execution.** The outcome may need to change a membership status, release funds, impose a sanction, or trigger a remedy. Execution depends on custody, authority and, where necessary, external legal institutions.
+
+**Continuity.** The Arena must preserve enough records to permit review, renewal, migration, replacement of operators and eventual dissolution. A working institution needs memory, not just a current state.
+
+The layers are related but not interchangeable. A registry can certify that a charter hash is unchanged without establishing whether its terms are fair. A valid signature can identify an authorised decision-maker without establishing whether the decision was justified. A correctly executed contract can distribute funds while leaving a real-world grievance unresolved.
+
+## 03 / A dispute at a field station
+
+Consider a hypothetical Arena operating a small environmental field station. Members contribute labour, share instruments and maintain a modest common budget. The charter assigns equipment custody to an operator and requires arbitration for contested damage.
+
+An instrument is returned broken. The operator claims a member damaged it through misuse. The member maintains that the failure was caused by wear and reports that an earlier defect was ignored. Both accounts contain potentially relevant evidence: photographs, equipment logs, maintenance records, messages and witness statements.
+
+The dispute is not initially a problem of data integrity. It is a problem of **interpretation and responsibility**.
+
+A timestamp may show when a photograph was taken, not what caused the damage. A signed maintenance log may establish who made a statement, not whether it was accurate. A missing record might indicate concealment, poor procedure or an unremarkable administrative failure. The charter itself may be silent on how normal wear is allocated.
+
+A functioning dispute procedure must therefore answer questions that no signature can answer alone. Who is entitled to submit evidence? Who decides whether a witness is credible? What standard of proof applies? Can the operator also be the complaining party? Who appoints the arbitrator? What happens when new evidence appears? Which remedies are proportionate?
+
+Once an outcome is reached, it can be expressed in a structured form and authenticated. But that technical step comes **after** the institution has decided how to establish and contest facts.
+
+## 04 / What verification verifies
+
+ARENA's dispute-outcome specification describes a signed payload associated with an Arena and a dispute, subject to effective-time and optional expiry constraints. Its verifier checks whether the signature belongs to an authorised signer, whether the Arena identifier matches, and whether the outcome falls within its permitted time window. It distinguishes verification from execution and requires replay protection when an outcome is consumed.
+
+This is a meaningful distinction. Cryptographic verification answers a bounded set of questions: was this data signed by the expected key, is it addressed to the intended context, and has it already been executed where execution must occur only once?
+
+It does **not** answer whether the evidence was fabricated, whether the signer was coerced, whether the hearing was fair, whether the remedy was lawful, or whether a contractual participant was able to refuse the terms in practice.
+
+The broader technical literature makes the same boundary visible. Ethereum's EIP-712 defines typed structured-data signing and domain separation, while explicitly leaving replay protection to the application. Kleros and related oracle systems approach disputed real-world information through incentives and adjudication, rather than pretending that facts arrive on-chain without human mediation.
+
+The unresolved issue is not simply how to connect off-chain facts to on-chain actions. It is how to make **the authority to interpret facts** accountable.
+
+## 05 / The registry does not remove the registrar
+
+The proposed ARENA Registry adds another institutional layer. It records recognised Arenas, charter references, versions, operators and lifecycle states. In its initial form, recognition remains stewarded. A possible future standards-governance mechanism is described, but no tokenised voting regime is assumed.
+
+A common error in protocol design is to treat the existence of an open record as sufficient decentralisation. It is not. A public registry may make decisions observable while leaving the power to admit, suspend or revoke entries concentrated in a small group.
+
+That concentration can be defensible during early development. It also creates questions that need direct answers. On what evidence is recognition granted? What constitutes revocation? Can an operator appeal? Are status changes traceable to published criteria? Can an Arena continue operating if the registrar disappears or becomes hostile?
+
+The registry can preserve an accountable history of decisions. It cannot make the decision-maker disappear. An institution gains legitimacy, if at all, through the quality of its procedures and the ability of affected parties to contest its power.
+
+## 06 / Exit has material conditions
+
+ARENA places unusual emphasis on explicit entry, renewal and exit. This is an important contribution because governance projects often specify collective decision-making at length while treating departure as a formality.
+
+In a physical system, exit is not just the removal of an account or signature. A departing member may have labour claims, an interest in shared assets, possession of tools, an outstanding dispute, or personal information embedded in the institution's records. Property may be immovable. The operator may control access to the site and to the documents needed to challenge an outcome.
+
+A meaningful exit procedure requires answers about settlement, records, assets, liability and continuity. The existence of a contractual exit clause is weaker evidence of freedom than the practical ability to exercise it.
+
+The same issue appears at the institutional level. ARENA separates an Arena's identity from the company, trust, lease or other legal wrapper through which it interfaces with existing law. That separation can improve portability, but only where rights and obligations can actually be transferred. A software migration cannot by itself move title to land or extinguish statutory liability.
+
+The relevant test is therefore not whether exit is permitted in the specification. It is whether exit can occur **without arbitrary confiscation, inaccessible records or unreviewable discretion**.
+
+## 07 / Polycentricity is a research problem, not a slogan
+
+The theoretical attraction of ARENA is the possibility of multiple bounded institutions governed by different rules while remaining interoperable in limited ways. This resembles the broader study of polycentric governance: systems in which several centres of decision-making operate with overlapping authority rather than under one comprehensive command.
+
+Elinor Ostrom's work on durable commons institutions is relevant, but it should not be enlisted as a blanket endorsement of a particular political theory or software architecture. Her research compared arrangements that worked with those that failed, looking for general design principles while emphasising institutional diversity and local adaptation.
+
+ARENA can be evaluated in that spirit. Do explicitly bounded roles and dispute procedures improve outcomes over informal agreements? Does a portable record reduce dependence on a single operator? Does registry recognition improve trust between otherwise separate sites? Do the additional procedures impose costs that overwhelm their benefits at small scale?
+
+These are empirical questions. A persuasive prototype would record failures as carefully as successes.
+
+## 08 / An agenda for testing
+
+A credible field test should use a small, consensual deployment with real responsibilities and limited stakes. Its research protocol should be declared in advance, with an independent record of outcomes.
+
+Five tests would be particularly informative:
+
+1. **Evidence integrity:** can participants reconstruct a disputed event from records assembled by different parties, and identify gaps or contradictions?
+2. **Procedural independence:** can a complaint against an operator be considered without the operator controlling the process or its evidence?
+3. **Execution limits:** does the verifier reject invalid signatures, wrong Arena identifiers, premature or expired outcomes, and repeated execution?
+4. **Exit and portability:** can a member or operator depart with the records and entitlements required under the charter?
+5. **Institutional continuity:** does the arrangement remain intelligible and operational after an operator change, key loss, or material dispute?
+
+Successful contract tests would establish only a fraction of what is required. They would not demonstrate fair adjudication, legal enforceability, physical safety or durable cooperation. Those claims require different kinds of evidence.
+
+## 09 / Provisional conclusion
+
+ARENA is most interesting where it refuses to treat a political or social institution as a smart contract with a larger vocabulary. Its proposed architecture makes boundary, authority, custody, dispute, exit and continuity explicit. Its most serious weakness is also visible there: each technical boundary leads back to judgments made by people with unequal access to information and power.
+
+The central question for AS01 is consequently not whether cryptography can replace institutions. It is whether institutions can be designed so that their claims, decisions and limits become more legible, contestable and portable.
+
+That is a substantial proposition. It is also one that must remain open to failure.
+
+## Research materials
+
+This study draws on Anthem's working ARENA specifications, including the Arena definition, governance kernel, legal interface, threat model, interoperability specification, dispute-outcome verifier and Registry whitepaper (working versions reviewed October 2026). The specifications describe a research-stage system, not a production deployment or audited legal or security framework.
+
+</Text>
+
+<ExternalReference href="https://www.nobelprize.org/prizes/economic-sciences/2009/ostrom/lecture/" label="Elinor Ostrom — Beyond Markets and States (2009)" />
+<ExternalReference href="https://eips.ethereum.org/EIPS/eip-712" label="EIP-712 — Typed structured data hashing and signing" />
+<ExternalReference href="https://docs.kleros.io/products/oracle" label="Kleros — Oracle and disputed external information" />
 
 <MemberSlot slotKey="as01-film-001" />
 
