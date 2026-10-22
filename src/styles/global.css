@@ -266,6 +266,52 @@ figure {
   margin-top: 1em;
 }
 
+/* Research-paper headings remain typographic, not promotional. */
+.instance[data-member-instance='AS01'] .editorial-text--body h2 {
+  margin: 3.6em 0 1.15em;
+  font-size: var(--text);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.instance[data-member-instance='AS01'] .editorial-text--body h2:first-child {
+  margin-top: 0;
+}
+
+.instance[data-member-instance='AS01'] .editorial-text--body a {
+  text-decoration-line: underline;
+}
+
+.as01-process ol {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 30px 36px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.as01-process li {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding-top: 9px;
+  border-top: 1px solid var(--rule);
+  font-size: var(--text);
+}
+
+.as01-process-number,
+.as01-process small {
+  color: var(--muted);
+  font-size: var(--text-xs);
+  font-weight: 400;
+}
+
+.as01-process figcaption {
+  margin-top: 26px;
+}
+
 figcaption,
 .member-label,
 .member-caption {
@@ -394,6 +440,11 @@ figcaption,
     grid-template-columns: 1fr;
     gap: 52px;
     padding-top: clamp(96px, 17vh, 150px);
+  }
+
+  .as01-process ol {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 18px;
   }
 
   .signin-row {
