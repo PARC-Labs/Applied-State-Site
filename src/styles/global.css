@@ -266,6 +266,23 @@ figure {
   margin-top: 1em;
 }
 
+/* Research-paper headings remain typographic, not promotional. */
+.instance[data-member-instance='AS01'] .editorial-text--body h2 {
+  margin: 3.6em 0 1.15em;
+  font-size: var(--text);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.instance[data-member-instance='AS01'] .editorial-text--body h2:first-child {
+  margin-top: 0;
+}
+
+.instance[data-member-instance='AS01'] .editorial-text--body a {
+  text-decoration-line: underline;
+}
+
 figcaption,
 .member-label,
 .member-caption {
