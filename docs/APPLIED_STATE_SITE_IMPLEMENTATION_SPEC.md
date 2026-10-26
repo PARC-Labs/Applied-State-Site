@@ -981,6 +981,14 @@ If Supabase is unavailable, public Applied State content must remain usable.
 
 ## 24. Membership operations in v1
 
+### October 2026 admission clarification
+
+Membership remains one screened class: the institution receives applications or issues invitations; authorised staff select participants before any payment or entitlement. The static public `/apply/` page is an intake form, not a public sign-up. A staff-only review process can record admission decisions, but only privileged, deliberate provisioning creates actual member access.
+
+The intake and applicant data follow the same strict visual restraint and confidentiality rules as the existing site. See `docs/CURATED_ADMISSION.md`. Admission does not grant editorial publishing rights.
+
+
+
 Keep operations manual initially.
 
 Initial member provisioning can be:
