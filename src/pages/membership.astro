@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
+import { ADMISSION_INTAKE_OPEN } from '../lib/admission-release'
 
 const signInHref = `${import.meta.env.BASE_URL}signin/`
 ---
@@ -8,9 +9,13 @@ const signInHref = `${import.meta.env.BASE_URL}signin/`
   <article class="utility-document">
     <h1>MEMBERSHIP</h1>
     <div class="utility-copy">
-      <p>Membership supports Applied State and provides access to additional research and material.</p>
-      <p>Members may also receive eligibility or priority for selected programmes when relevant.</p>
-      <p>Membership is currently by invitation.</p>
+      <p>Applied State is a distributed art and research institution. Membership supports its work and provides access to additional research materials, private States, selected collaboration, and the member Index.</p>
+      <p>Admission is selective, by application or invitation. Accepted applicants receive payment and account instructions privately. Admission does not confer editorial publication rights.</p>
+      {ADMISSION_INTAKE_OPEN ? (
+        <p><a href={`${import.meta.env.BASE_URL}apply/`}>Apply for membership</a></p>
+      ) : (
+        <p>Applications are not currently open.</p>
+      )}
       <p><a href={signInHref}>Member sign in</a></p>
     </div>
   </article>

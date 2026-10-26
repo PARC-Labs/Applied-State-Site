@@ -55,6 +55,7 @@ const publicRoutes = [
   'as02/index.html',
   'as03/index.html',
   'about/index.html',
+  'apply/index.html',
   'membership/index.html',
   'signin/index.html',
   '404.html',
@@ -66,6 +67,7 @@ const memberRoutes = [
   'index/index.html',
   'index/view/index.html',
   'index/review/index.html',
+  'applications/review/index.html',
 ]
 
 for (const file of [...publicRoutes, ...memberRoutes]) {
@@ -131,6 +133,17 @@ if (credentialLeaks.length) {
   throw new Error(`Privileged credential material leaked into dist/: ${credentialLeaks.join(', ')}`)
 }
 
+// Public intake stays disabled until the production database and abuse controls
+// have been verified. The form must not appear in this release's static HTML.
+const admission = readBuiltRoute('apply/index.html')
+const membership = readBuiltRoute('membership/index.html')
+if (/data-membership-application|name=[\"'](?:name|email|practice|statement)[\"']/i.test(admission)) {
+  throw new Error('Public application intake was enabled without production release approval.')
+}
+if (/href=[\"'][^\"']*apply\/[^\"']*[\"']/i.test(membership)) {
+  throw new Error('Membership page links to an unopened application intake.')
+}
+
 const home = readBuiltRoute('index.html')
 if (/<script(?:\s|>)/i.test(home)) {
   throw new Error('Homepage must not ship client-side JavaScript.')
@@ -184,6 +197,7 @@ const emptyHydrationTargets = [
   'data-index-states',
   'data-submitted-states',
   'data-open-index-states',
+  'data-admission-list',
 ]
 
 for (const route of memberRoutes) {

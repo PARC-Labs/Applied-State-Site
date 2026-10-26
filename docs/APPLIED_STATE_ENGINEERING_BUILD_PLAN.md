@@ -598,6 +598,14 @@ Reactivation restores entitlement subject to normal ownership/collaboration reco
 
 # 7. Authentication and onboarding
 
+## 7.0 Curated admission amendment (October 2026)
+
+The user-confirmed member model is selective application or invitation, **one member tier**, and payment only after curatorial acceptance. Public application is not Auth sign-up. The `membership_applications` table and public submit RPC collect confidential intake; staff alone can review applications and record accepted/waitlisted/declined decisions. Acceptance does not create an Auth identity or a member entitlement. Post-acceptance payment and provisioning remain manual until a payment provider and signed webhook are implemented.
+
+All private-State, collaboration, Index, staff-only publication, RLS and non-social invariants remain unchanged. Operational requirements and abuse controls are in `docs/CURATED_ADMISSION.md`.
+
+
+
 ## 7.1 Authentication
 
 Use passwordless email authentication.

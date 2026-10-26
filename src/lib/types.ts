@@ -64,6 +64,23 @@ export interface MembershipRow {
   updated_at: string;
 }
 
+export type MembershipApplicationStatus = 'submitted' | 'waitlisted' | 'accepted' | 'declined';
+
+export interface MembershipApplicationRow {
+  id: string;
+  full_name: string;
+  email: string;
+  practice: string;
+  location: string | null;
+  portfolio_url: string | null;
+  statement: string;
+  status: MembershipApplicationStatus;
+  internal_note: string | null;
+  created_at: string;
+  reviewed_at: string | null;
+  reviewed_by: string | null;
+}
+
 export interface MemberResourceRow {
   id: string;
   as_id: string;
@@ -154,6 +171,16 @@ type TableDefinition<Row, Insert, Update> = {
 export type Database = {
   public: {
     Tables: {
+      membership_applications: TableDefinition<
+        MembershipApplicationRow,
+        Partial<MembershipApplicationRow> & {
+          full_name: string;
+          email: string;
+          practice: string;
+          statement: string;
+        },
+        Partial<MembershipApplicationRow>
+      >;
       memberships: TableDefinition<
         MembershipRow,
         Partial<MembershipRow> & { user_id: string },
@@ -210,6 +237,26 @@ export type Database = {
     };
     Views: Record<string, never>;
     Functions: {
+      submit_membership_application: {
+        Args: {
+          p_name: string;
+          p_email: string;
+          p_practice: string;
+          p_location?: string | null;
+          p_portfolio_url?: string | null;
+          p_statement: string;
+          p_honeypot?: string | null;
+        };
+        Returns: undefined;
+      };
+      review_membership_application: {
+        Args: {
+          target_application_id: string;
+          decision: 'accepted' | 'waitlisted' | 'declined';
+          reviewer_note?: string | null;
+        };
+        Returns: undefined;
+      };
       submit_state: {
         Args: { target_state_id: string };
         Returns: undefined;

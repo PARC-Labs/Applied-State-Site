@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { ADMISSION_INTAKE_OPEN } from '../lib/admission-release'
+---
+
+<BaseLayout title="Apply — Applied State" pageClass="utility-page" description="Apply for curated membership of Applied State.">
+  <article class="utility-document">
+    <h1>APPLICATION</h1>
+    <div class="utility-copy">
+      <p>Applied State accepts members by application or invitation. Selection considers the applicant's practice, research interests, and potential contribution to the institution.</p>
+      <p>One membership tier. Payment and member access are arranged only after acceptance.</p>
+
+      {ADMISSION_INTAKE_OPEN ? (
+      <form class="application-form" data-membership-application novalidate>
+        <div class="application-field">
+          <label for="applicant-name">NAME</label>
+          <input id="applicant-name" name="name" maxlength="160" minlength="2" autocomplete="name" required />
+        </div>
+        <div class="application-field">
+          <label for="applicant-email">EMAIL</label>
+          <input id="applicant-email" name="email" type="email" inputmode="email" maxlength="254" autocomplete="email" required />
+        </div>
+        <div class="application-field">
+          <label for="applicant-location">LOCATION (OPTIONAL)</label>
+          <input id="applicant-location" name="location" maxlength="160" autocomplete="address-level2" />
+        </div>
+        <div class="application-field">
+          <label for="applicant-practice">PRACTICE / RESEARCH</label>
+          <textarea id="applicant-practice" name="practice" minlength="10" maxlength="2000" required></textarea>
+        </div>
+        <div class="application-field">
+          <label for="applicant-portfolio">WORK OR WEBSITE (OPTIONAL)</label>
+          <input id="applicant-portfolio" name="portfolio" type="url" inputmode="url" maxlength="2048" placeholder="https://" />
+        </div>
+        <div class="application-field">
+          <label for="applicant-statement">REASON FOR APPLYING</label>
+          <textarea id="applicant-statement" name="statement" minlength="40" maxlength="4000" required></textarea>
+        </div>
+        <div class="application-trap" aria-hidden="true">
+          <label for="applicant-subject">Leave this field empty</label>
+          <input id="applicant-subject" name="subject" tabindex="-1" autocomplete="off" />
+        </div>
+        <button class="text-action" type="submit">SUBMIT APPLICATION</button>
+        <p class="application-status" data-application-status role="status" aria-live="polite"></p>
+      </form>
+
+      ) : (
+        <p>Applications are not currently open.</p>
+      )}
+
+      {ADMISSION_INTAKE_OPEN && (
+        <p class="application-privacy">Application information is accessible to authorised Applied State staff for admission review. Submission does not create an account, activate membership or guarantee admission.</p>
+      )}
+    </div>
+  </article>
+
+  <style>
+    .application-form { margin-top: 52px; }
+    .application-field { margin-bottom: 28px; }
+    .application-field label { display: block; margin-bottom: 9px; color: var(--muted); font-size: var(--text-xs); }
+    .application-field input, .application-field textarea {
+      display: block; width: 100%; padding: 7px 0; border: 0;
+      border-bottom: 1px solid var(--ink); border-radius: 0;
+      background: transparent; color: inherit; font: inherit;
+    }
+    .application-field textarea { min-height: 100px; resize: vertical; }
+    .application-status, .application-privacy { color: var(--muted); font-size: var(--text-sm); }
+    .application-status { min-height: 1.4em; margin-top: 18px; }
+    .application-privacy { margin-top: 45px; }
+    .application-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+    .application-form button[disabled] { opacity: .45; cursor: default; }
+  </style>
+
+  <script>
+    import { initMembershipApplication } from '../scripts/membership-applications'
+    initMembershipApplication()
+  </script>
+</BaseLayout>
