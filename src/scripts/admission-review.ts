@@ -112,7 +112,7 @@ export async function initAdmissionReview(): Promise<void> {
     const reload = async (): Promise<void> => {
       const { data, error } = await client
         .from('membership_applications')
-        .select('id,full_name,email,practice,location,portfolio_url,statement,status,created_at')
+        .select('*')
         .in('status', ['submitted', 'waitlisted'])
         .order('created_at', { ascending: true })
       if (error) throw error
