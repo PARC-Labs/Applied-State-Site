@@ -54,7 +54,7 @@ create table public.membership_applications (
   )
 );
 
-create unique index membership_applications_email_unique
+create index membership_applications_email_idx
   on public.membership_applications (email);
 create index membership_applications_review_queue
   on public.membership_applications (status, created_at asc);
@@ -75,8 +75,9 @@ on public.membership_applications as restrictive for select to authenticated
 using (private.is_staff((select auth.uid()), null));
 
 -- This is an anonymous public intake, not an account-creation mechanism.
--- The form has a honeypot and bounded inputs. Duplicates are silent and reveal
--- nothing about prior applicants. Monitor this RPC for abuse and add an
+-- The form has a honeypot and bounded inputs. Repeated submissions are
+-- permitted so a forged email cannot block a genuine application. Monitor
+-- this RPC for abuse and add an
 -- edge-level challenge before high-traffic recruitment.
 create or replace function public.submit_membership_application(
   p_name text,
@@ -124,8 +125,7 @@ begin
   values (
     normalized_name, normalized_email, normalized_practice,
     normalized_location, normalized_portfolio, normalized_statement
-  )
-  on conflict do nothing;
+  );
 end;
 $$;
 
