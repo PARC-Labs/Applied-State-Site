@@ -2,6 +2,12 @@
 
 Applied State is an editorial institution with one member entitlement class. Applications and invitations are screened before anyone receives access. No applicant can self-create an Auth account, activate membership, access a private State, or open a State into the Index.
 
+## Production release gate
+
+The compiled website deliberately keeps the public application form closed with `ADMISSION_INTAKE_OPEN = false` in `src/lib/admission-release.ts`. This permits a safe code deployment before the database and abuse protections are ready. The website must not solicit applications until operators have validated the production Supabase migration, staff-only review, account invitation and tested sign-in, retention policy, and abuse controls.
+
+After those conditions are met, change the constant to `true` in a separate reviewed commit. When doing so, update the static-build leak/release guard in `scripts/check-public-build.mjs` to assert the newly expected published intake form and to reject any server-only applicant data. Do not simply remove the guard.
+
 ## Public intake
 
 - The public `/apply/` page submits to `public.submit_membership_application` via the browser publishable key.
