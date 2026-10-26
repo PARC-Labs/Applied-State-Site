@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+import StatesPageStyles from '../../../components/states/StatesPageStyles.astro'
+import StatesNavigation from '../../../components/states/StatesNavigation.astro'
+---
+
+<BaseLayout title="Admission Review — Applied State" noindex pageClass="member-page">
+  <article class="states-surface" data-admission-review>
+    <header class="states-surface-header">
+      <StatesNavigation />
+      <h1>ADMISSION REVIEW</h1>
+    </header>
+    <p class="states-status" data-admission-access role="status" aria-live="polite">Checking access.</p>
+    <div data-admission-workspace hidden>
+      <p class="states-help">Acceptance records an editorial decision only. Contact the applicant and complete payment and Auth membership provisioning separately.</p>
+      <section class="states-section" aria-labelledby="admission-queue-heading">
+        <h2 id="admission-queue-heading">APPLICATIONS</h2>
+        <ol class="review-list" data-admission-list></ol>
+        <p class="states-status" data-admission-empty hidden>No applications pending review.</p>
+      </section>
+    </div>
+  </article>
+
+  <StatesPageStyles />
+
+  <script>
+    import { initMemberRuntime } from '../../../scripts/member-runtime'
+    import { initAdmissionReview } from '../../../scripts/admission-review'
+    void initMemberRuntime()
+    void initAdmissionReview()
+  </script>
+</BaseLayout>
