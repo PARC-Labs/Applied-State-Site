@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
+import { ADMISSION_INTAKE_OPEN } from '../lib/admission-release'
 ---
 
 <BaseLayout title="Apply — Applied State" pageClass="utility-page" description="Apply for curated membership of Applied State.">
@@ -9,6 +10,7 @@ import BaseLayout from '../layouts/BaseLayout.astro'
       <p>Applied State accepts members by application or invitation. Selection considers the applicant's practice, research interests, and potential contribution to the institution.</p>
       <p>One membership tier. Payment and member access are arranged only after acceptance.</p>
 
+      {ADMISSION_INTAKE_OPEN ? (
       <form class="application-form" data-membership-application novalidate>
         <div class="application-field">
           <label for="applicant-name">NAME</label>
@@ -42,7 +44,13 @@ import BaseLayout from '../layouts/BaseLayout.astro'
         <p class="application-status" data-application-status role="status" aria-live="polite"></p>
       </form>
 
-      <p class="application-privacy">Application information is accessible to authorised Applied State staff for admission review. Submission does not create an account, activate membership or guarantee admission.</p>
+      ) : (
+        <p>Applications are not currently open.</p>
+      )}
+
+      {ADMISSION_INTAKE_OPEN && (
+        <p class="application-privacy">Application information is accessible to authorised Applied State staff for admission review. Submission does not create an account, activate membership or guarantee admission.</p>
+      )}
     </div>
   </article>
 
