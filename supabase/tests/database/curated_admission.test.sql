@@ -49,7 +49,7 @@ select lives_ok(
     'I would like to develop situated research and contribute to shared institutional work.',
     null
   )$$,
-  'duplicate submission does not expose earlier application'
+  'repeat submission does not disclose other applications'
 );
 select throws_ok(
   $$select public.submit_membership_application(
@@ -62,7 +62,7 @@ reset role;
 
 select is(
   (select count(*) from public.membership_applications where email = 'artist@example.test'),
-  1::bigint, 'only one normalized application is stored'
+  2::bigint, 'unverified email cannot block another application'
 );
 
 select set_config('request.jwt.claim.sub', 'f0000000-0000-4000-8000-000000000002', true);
@@ -81,7 +81,7 @@ reset role;
 select set_config('request.jwt.claim.sub', 'f0000000-0000-4000-8000-000000000001', true);
 select set_config('request.jwt.claims', '{"sub":"f0000000-0000-4000-8000-000000000001","role":"authenticated"}', true);
 set local role authenticated;
-select is((select count(*) from public.membership_applications), 1::bigint,
+select is((select count(*) from public.membership_applications), 2::bigint,
   'staff member can view the queue');
 select lives_ok(
   $$select public.review_membership_application(
@@ -91,7 +91,7 @@ select lives_ok(
 );
 reset role;
 
-select is((select status::text from public.membership_applications limit 1),
+select is((select status::text from public.membership_applications where status = 'accepted' limit 1),
   'accepted', 'review decision is persisted');
 select is((select count(*) from public.memberships), 0::bigint,
   'acceptance does not create a membership entitlement');
