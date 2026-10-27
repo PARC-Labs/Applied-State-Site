@@ -4,13 +4,15 @@ Applied State is an editorial institution with one member entitlement class. App
 
 ## Production release gate
 
+The database migration 0006 also deliberately denies execution of the submission RPC to both `anon` and `authenticated`; only `service_role` can use it until a separately reviewed migration opens intake. Do not grant public RPC privileges merely because the web page exists.
+
 The compiled website deliberately keeps the public application form closed with `ADMISSION_INTAKE_OPEN = false` in `src/lib/admission-release.ts`. This permits a safe code deployment before the database and abuse protections are ready. The website must not solicit applications until operators have validated the production Supabase migration, staff-only review, account invitation and tested sign-in, retention policy, and abuse controls.
 
-After those conditions are met, change the constant to `true` in a separate reviewed commit. When doing so, update the static-build leak/release guard in `scripts/check-public-build.mjs` to assert the newly expected published intake form and to reject any server-only applicant data. Do not simply remove the guard.
+After those conditions are met, introduce a separately reviewed SQL migration to grant submit RPC privileges to the intended public roles, then change the constant to `true` in the same coordinated release. When doing so, update the static-build leak/release guard in `scripts/check-public-build.mjs` to assert the newly expected published intake form and to reject any server-only applicant data. Do not simply remove the guard.
 
 ## Public intake
 
-- The public `/apply/` page submits to `public.submit_membership_application` via the browser publishable key.
+- When the public intake is enabled, `/apply/` will submit to `public.submit_membership_application` via the browser publishable key. In the closed state this RPC is not executable by visitors.
 - A submission stores applicant name, contact email, location, practice, work URL and a short statement. It does not authenticate the applicant.
 - The response is intentionally indistinguishable for repeat applicants. Treat it as acknowledgement of technical receipt, not a decision.
 - All application data is confidential. Only Supabase administrators and staff permitted by database RLS may read the rows. Do not add application details to static pages, web analytics, public GitHub issues or logs.
