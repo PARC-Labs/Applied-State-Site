@@ -10,6 +10,10 @@ The compiled website deliberately keeps the public application form closed with 
 
 After those conditions are met, introduce a separately reviewed SQL migration to grant submit RPC privileges to the intended public roles, then change the constant to `true` in the same coordinated release. When doing so, update the static-build leak/release guard in `scripts/check-public-build.mjs` to assert the newly expected published intake form and to reject any server-only applicant data. Do not simply remove the guard.
 
+## Migration history
+
+Production applied the admissions migration as version `20261027081133` and the event-trigger security hardening as `20261027081255`. GitHub migration filenames use those same versions. Do not restore the earlier unversioned `0006_...` filename: doing so would cause a future `supabase db push` to attempt the migration a second time.
+
 ## Public intake
 
 - When the public intake is enabled, `/apply/` will submit to `public.submit_membership_application` via the browser publishable key. In the closed state this RPC is not executable by visitors.
@@ -44,7 +48,7 @@ After those conditions are met, introduce a separately reviewed SQL migration to
 
 ## Release gates
 
-- Apply migration `0006_curated_membership_applications.sql` through the reviewed Supabase deployment workflow **before** enabling the public application form.
+- Apply migration `20261027081133_0006_curated_membership_applications.sql` through the reviewed Supabase deployment workflow **before** enabling the public application form.
 - Run `npm run verify` and `supabase test db`, including `curated_admission.test.sql`. Never run transactional fixtures against production.
 - Test production sign-in and a full manual application → review → invitation → entitlement path with an authorised test account. Check production Auth, SMTP, site URL, callbacks, RLS policies and the Supabase browser-safe publishable configuration.
 - Do not mark admission live merely because the static page is reachable. The migration and staff-only workflow must work in the production environment.
