@@ -2,7 +2,7 @@
 -- automatic Auth or entitlement changes. Synthetic data is transactional.
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(15);
+select plan(16);
 
 insert into auth.users (
   instance_id, id, aud, role, email, email_confirmed_at,
@@ -21,8 +21,10 @@ values (
   'f0000000-0000-4000-8000-000000000001'
 );
 
-select ok(has_function_privilege('anon', 'public.submit_membership_application(text,text,text,text,text,text,text)', 'EXECUTE'),
-  'anonymous visitors can submit applications');
+select ok(not has_function_privilege('anon', 'public.submit_membership_application(text,text,text,text,text,text,text)', 'EXECUTE'),
+  'anonymous visitors cannot submit while admissions are closed');
+select ok(not has_function_privilege('authenticated', 'public.submit_membership_application(text,text,text,text,text,text,text)', 'EXECUTE'),
+  'signed-in members cannot bypass the closed admissions gate');
 select ok(not has_table_privilege('anon', 'public.membership_applications', 'SELECT'),
   'anonymous visitors cannot list applications');
 select ok(not has_table_privilege('anon', 'public.membership_applications', 'INSERT'),
@@ -30,7 +32,7 @@ select ok(not has_table_privilege('anon', 'public.membership_applications', 'INS
 select ok(not has_function_privilege('anon', 'public.review_membership_application(uuid,text,text)', 'EXECUTE'),
   'anonymous visitors cannot call review');
 
-set local role anon;
+set local role service_role;
 select lives_ok(
   $$select public.submit_membership_application(
     'Research Artist', 'Artist@Example.Test',
@@ -39,7 +41,7 @@ select lives_ok(
     'I would like to develop situated research and contribute to shared institutional work.',
     null
   )$$,
-  'public RPC accepts a valid application'
+  'privileged intake RPC accepts a valid application'
 );
 select lives_ok(
   $$select public.submit_membership_application(

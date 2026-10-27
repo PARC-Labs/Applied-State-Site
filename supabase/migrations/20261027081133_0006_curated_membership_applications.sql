@@ -181,9 +181,12 @@ revoke all on function public.review_membership_application(
   uuid, text, text
 ) from public, anon, authenticated;
 
+-- Deliberately not executable by the browser until abuse controls and the
+-- production rollout are approved. Future activation requires a reviewed
+-- migration granting access to anon/authenticated.
 grant execute on function public.submit_membership_application(
   text, text, text, text, text, text, text
-) to anon, authenticated;
+) to service_role;
 grant execute on function public.review_membership_application(
   uuid, text, text
 ) to authenticated;
