@@ -13,4 +13,4 @@ Rules:
 5. Are.na may be used as a **public editorial authoring source**. Working channels remain private and are never linked into the public rendering path.
 6. Never place secret keys, private member objects, unpublished research, emails or privileged tokens in public assets, GitHub commits or the Pages build.
 7. Preserve the historical Supabase database migrations, tests and Edge Function until inventory, retention/export and decommission decisions are completed. Do not delete production data as part of a website change.
-8. Run npm run verify and the database CI security checks before deploying. Preserve the CI-gated GitHub Pages deployment sequence.
+8. Run npm run verify before publishing the website. Preserve the CI-gated GitHub Pages deployment sequence. Legacy database security checks are required when modifying the preserved Supabase source, not for public editorial site releases.

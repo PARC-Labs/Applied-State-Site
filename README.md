@@ -30,7 +30,7 @@ Current public routes: `/`, `/as01/`, `/as02/`, `/as03/`, `/about/`, and a stati
 
 ## Deployment
 
-CI runs application verification and the preserved legacy database migration/RLS tests. A successful main-branch CI run triggers the GitHub Pages workflow and repeats the verification before deployment. Set Pages' custom domain to `appliedstate.xyz` and require HTTPS. Production member-service variables are not needed or injected by Pages.
+CI runs the public Astro application tests, build and leakage scan. A successful main-branch CI run triggers GitHub Pages, which repeats the static-site checks before deployment. Historical Supabase migrations/RLS tests are isolated in the `Legacy Supabase security checks` workflow, triggered on changes under `supabase/` or manually; they no longer gate unrelated website publishing. Set Pages' custom domain to `appliedstate.xyz` and require HTTPS. Production member-service variables are not needed or injected by Pages.
 
 ## Legacy infrastructure retention
 

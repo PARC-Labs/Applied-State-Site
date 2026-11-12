@@ -4,7 +4,7 @@ The website is Astro + GitHub Pages static publication. No Supabase authenticati
 
 ## Release
 
-Run `npm ci` and `npm run verify`. GitHub CI additionally retains migration lint and pgTAP authorization tests for historical Supabase schemas. Only a successful main-branch CI run triggers the Pages deployment workflow, which re-verifies application and database checks before publishing. The public domain is https://appliedstate.xyz with HTTPS required.
+Run `npm ci` and `npm run verify`. The site CI verifies Astro/TypeScript, unit tests, build and leakage checks. A successful main-branch site CI run triggers Pages, which repeats only the static-site checks. The old Supabase migrations, lint and pgTAP authorization suite run in a separate workflow when files under `supabase/` change or on explicit manual dispatch. This avoids coupling institutional publication to an unused member backend while maintaining migration security checks for backend source changes. The public domain is https://appliedstate.xyz with HTTPS required.
 
 The production Pages workflow must not inject `PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_PUBLISHABLE_KEY`, or any other public client credentials. Build configuration is limited to `SITE_URL` and `BASE_PATH`. Do not place private materials, member identities, or unpublished drafts into public MDX, `public/`, or GitHub logs.
 
