@@ -267,7 +267,7 @@ figure {
 }
 
 /* Research-paper headings remain typographic, not promotional. */
-.instance[data-member-instance='AS01'] .editorial-text--body h2 {
+.instance[data-instance='AS01'] .editorial-text--body h2 {
   margin: 3.6em 0 1.15em;
   font-size: var(--text);
   font-weight: 400;
@@ -275,11 +275,11 @@ figure {
   letter-spacing: 0;
 }
 
-.instance[data-member-instance='AS01'] .editorial-text--body h2:first-child {
+.instance[data-instance='AS01'] .editorial-text--body h2:first-child {
   margin-top: 0;
 }
 
-.instance[data-member-instance='AS01'] .editorial-text--body a {
+.instance[data-instance='AS01'] .editorial-text--body a {
   text-decoration-line: underline;
 }
 
@@ -312,9 +312,7 @@ figure {
   margin-top: 26px;
 }
 
-figcaption,
-.member-label,
-.member-caption {
+figcaption {
   max-width: var(--measure);
   margin-top: 10px;
   color: var(--muted);
@@ -339,31 +337,6 @@ figcaption,
   height: clamp(150px, 22vh, 310px);
 }
 
-.member-slot:not([hidden]) {
-  display: block;
-}
-
-.member-object {
-  width: min(100%, var(--measure));
-}
-
-.member-object--image,
-.member-object--film {
-  width: min(100%, 1040px);
-}
-
-.member-object video,
-.member-object img {
-  width: 100%;
-}
-
-.member-note {
-  max-width: var(--measure);
-  margin-top: clamp(180px, 32vh, 430px);
-  color: var(--muted);
-  font-size: var(--text-sm);
-}
-
 .utility-document {
   display: grid;
   grid-template-columns: minmax(120px, 0.38fr) minmax(0, 1fr);
@@ -377,50 +350,6 @@ figcaption,
 
 .utility-copy p + p {
   margin-top: 1.2em;
-}
-
-.signin-form {
-  margin-top: 56px;
-}
-
-.signin-form label {
-  display: block;
-  margin-bottom: 14px;
-  color: var(--muted);
-  font-size: var(--text-xs);
-  letter-spacing: 0.04em;
-}
-
-.signin-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 24px;
-  align-items: end;
-}
-
-.signin-row input {
-  min-width: 0;
-  padding: 8px 0;
-  border: 0;
-  border-bottom: 1px solid var(--ink);
-  background: transparent;
-}
-
-.signin-row .text-action {
-  padding: 8px 0;
-  white-space: nowrap;
-}
-
-.form-status {
-  min-height: 1.45em;
-  margin-top: 18px;
-  color: var(--muted);
-  font-size: var(--text-sm);
-}
-
-.session-links {
-  display: flex;
-  gap: 24px;
 }
 
 @media (max-width: 767px) {
@@ -447,14 +376,6 @@ figcaption,
     gap: 24px 18px;
   }
 
-  .signin-row {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .signin-row .text-action {
-    justify-self: start;
-  }
 }
 
 @media (min-width: 768px) and (max-width: 1100px) {
@@ -464,9 +385,7 @@ figcaption,
 }
 
 @media print {
-  .site-footer,
-  .member-note,
-  .signin-form {
+  .site-footer {
     display: none;
   }
 

@@ -24,8 +24,6 @@ jobs:
       ASTRO_TELEMETRY_DISABLED: 1
       SITE_URL: https://appliedstate.xyz
       BASE_PATH: /
-      PUBLIC_SUPABASE_URL: ${{ vars.PUBLIC_SUPABASE_URL }}
-      PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ vars.PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -34,20 +32,6 @@ jobs:
         with:
           node-version: 24
           cache: npm
-      - name: Check production member-service configuration
-        shell: bash
-        run: |
-          public_url="${PUBLIC_SUPABASE_URL//[[:space:]]/}"
-          public_key="${PUBLIC_SUPABASE_PUBLISHABLE_KEY//[[:space:]]/}"
-          if [[ -z "$public_url" && -z "$public_key" ]]; then
-            echo "::warning::Supabase public variables are absent. The public institution will deploy; member functions will remain unavailable and fail closed."
-          elif [[ -z "$public_url" || -z "$public_key" ]]; then
-            echo "::error::Set both PUBLIC_SUPABASE_URL and PUBLIC_SUPABASE_PUBLISHABLE_KEY, or omit both for a public-only deployment."
-            exit 1
-          elif [[ "$PUBLIC_SUPABASE_URL" == *"YOUR_PROJECT"* || "$PUBLIC_SUPABASE_PUBLISHABLE_KEY" == *"YOUR_KEY"* ]]; then
-            echo "::error::Replace placeholder Supabase repository variables or remove both for a public-only deployment."
-            exit 1
-          fi
       - name: Install dependencies from lockfile
         run: npm ci
       - name: Run unit tests
