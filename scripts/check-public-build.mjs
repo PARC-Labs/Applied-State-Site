@@ -16,8 +16,9 @@ for (const file of required) {
   if (!existsSync(join(dist, file))) throw new Error(`Required institutional page missing: ${file}`)
 }
 const htmlPaths = artifacts.filter((file) => file.path.endsWith('.html')).map((file) => file.path.replaceAll('\\', '/'))
+const distPrefix = dist.replaceAll('\\', '/').replace(/\/+$/, '') + '/'
 for (const file of htmlPaths) {
-  const relative = file.startsWith(dist.replaceAll('\\', '/') + '/') ? file.slice(dist.length + 1) : file
+  const relative = file.startsWith(distPrefix) ? file.slice(distPrefix.length) : file
   if (!required.includes(relative)) throw new Error(`Unexpected public route: ${relative}`)
 }
 for (const route of ['membership','signin','states','index','apply','applications']) {
