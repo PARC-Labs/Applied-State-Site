@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { findCompiledCredentialLeaks } from './lib/public-env-security.mjs'
+import { findCompiledCredentialLeaks } from './lib/credential-scan.mjs'
 import { findPrivateFixtureLeak, loadPrivateFixtureSentinels, readArtifactFiles } from './lib/fixture-sentinels.mjs'
 
 const root = new URL('../', import.meta.url)
