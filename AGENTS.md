@@ -1,30 +1,16 @@
-# Applied State — Codex instructions
+# Applied State — repository instructions
 
-Before modifying this repository, read and follow, in order:
+Applied State is an independent art and research institution. This repository publishes its public institutional record and numbered ASxx instances; it is not a member workspace.
 
-1. `docs/APPLIED_STATE_ENGINEERING_BUILD_PLAN.md`
-2. `docs/APPLIED_STATE_SITE_IMPLEMENTATION_SPEC.md`
+Read README.md, docs/OPERATIONS.md, docs/ARENA_AUTHORING.md, and docs/INSTITUTION_BASE_BOUNDARY.md before modifying the site. The older membership/States engineering specifications are preserved under docs/archive/ for historical reference only and must not be treated as current requirements.
 
-The engineering build plan is authoritative for system behavior, data model, permissions, security boundaries, architecture, implementation phases, and test requirements.
+Rules:
 
-The site implementation specification is authoritative for institutional identity, editorial behavior, visual language, information architecture, and interface restraint.
-
-If the documents overlap, use the more recent engineering plan for membership/States/security behavior and the site specification for visual/editorial behavior. If a real contradiction remains, do not invent a resolution: flag it.
-
-Priority rules:
-
-1. Applied State is an art/science institution. Do not turn it into a social network, creator platform, SaaS dashboard, or generic membership community.
-2. Do not preserve the current Next.js architecture merely because it exists. The target Astro + GitHub Pages + Supabase architecture is intentional.
-3. Choose restraint over additional UI. Do not add cards, dashboards, gradients, rounded components, decorative icons, marketing sections, social feeds, engagement mechanics, or animation unless explicitly requested.
-4. Do not invent Applied State editorial content.
-5. Every active member may create private States. Private States must be genuinely invisible to other members except explicitly accepted collaborators.
-6. Collaboration is explicit and scoped per State. Pending invitations grant no access.
-7. Only authorized Applied State staff may open a submitted State into the shared Index. Members cannot self-publish into the Index.
-8. Public content may be static; all member authorization must be enforced by Supabase RLS/private Storage, never by client-side hiding.
-9. No secret/service-role credentials, private State content, member-only resource payloads, or private member metadata may enter the GitHub Pages static build.
-10. Public AS pages must remain usable if authentication/member services fail; member enhancements fail closed.
-11. Every RLS or permission change requires allow and deny tests. Treat the security test matrix in the engineering plan as release-blocking.
-12. Build phase-by-phase. Do not opportunistically implement deferred features such as comments, chat, feeds, followers, likes, public member directories, or public States.
-13. Before handoff, run the build/type/lint/tests and complete the security/leakage verification described in the engineering plan.
-
-If a requested implementation choice conflicts with these invariants, stop and surface the conflict rather than silently changing the product model.
+1. Keep the interface typographic, restrained and editorial; preserve the deliberate minimalism of the homepage and ASxx pages.
+2. Preserve institutional authorship, citations, numbered publications and research material; do not invent editorial contents.
+3. Do not reintroduce member States, an Index, account login, membership applications, subscriptions, member slots or generic social-network functions. The independent PARC-Labs/Base repository owns the research-Space platform.
+4. Residency and programme participation belong to Applied State but require independent, purpose-specific applications, selection, privacy, consent and operational processes. Do not repurpose the retired membership-admission tables.
+5. Are.na may be used as a **public editorial authoring source**. Working channels remain private and are never linked into the public rendering path.
+6. Never place secret keys, private member objects, unpublished research, emails or privileged tokens in public assets, GitHub commits or the Pages build.
+7. Preserve the historical Supabase database migrations, tests and Edge Function until inventory, retention/export and decommission decisions are completed. Do not delete production data as part of a website change.
+8. Run npm run verify before publishing the website. Preserve the CI-gated GitHub Pages deployment sequence. Legacy database security checks are required when modifying the preserved Supabase source, not for public editorial site releases.

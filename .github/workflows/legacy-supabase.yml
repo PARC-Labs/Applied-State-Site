@@ -1,0 +1,41 @@
+name: Legacy Supabase security checks
+
+on:
+  pull_request:
+    paths:
+      - 'supabase/**'
+      - '.github/workflows/legacy-supabase.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'supabase/**'
+      - '.github/workflows/legacy-supabase.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  database:
+    name: Preserved migrations, lint and RLS tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SUPABASE_TELEMETRY_DISABLED: 1
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - uses: supabase/setup-cli@v3
+        with:
+          version: 2.116.0
+      - name: Start a clean local database and apply migrations
+        run: supabase db start
+      - name: Lint the local database
+        run: supabase db lint --local --level warning --fail-on warning
+      - name: Run pgTAP authorization tests
+        run: supabase test db
+      - name: Stop the local Supabase stack
+        if: always()
+        run: supabase stop --no-backup

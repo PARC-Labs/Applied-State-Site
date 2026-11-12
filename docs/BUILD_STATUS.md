@@ -1,45 +1,16 @@
-# Applied State — Build Status
+# Applied State — current build status
 
-Source of truth: `docs/APPLIED_STATE_ENGINEERING_BUILD_PLAN.md`.
+Architecture revised 12 November 2026. Applied State now publishes only the static institutional site and numbered ASxx research instances. General-purpose member workspaces belong to the separate Base project.
 
-Codex should update this file only when a phase exit criterion is actually satisfied. Do not mark phases complete because code was started or UI exists.
+- Static institutional site: implemented; deployment and CI verification must be checked for the exact release commit.
+- AS01 editorial paper and optional public Are.na channel: preserved.
+- AS02 and AS03: preserved as reserved publications.
+- Membership, sign-in, private States, collaboration, Index and member resources: retired from website source/routes.
+- Residency and programme applications: future, separate institutional workflows; no general membership application is currently open.
+- Old Supabase schema/data/Edge Function: preserved pending data inventory and backend decommission review; not reachable through the new site UI.
 
-- [ ] Phase 0 — Preserve and prepare
-- [ ] Phase 1 — Public institutional surface
-- [ ] Phase 2 — Supabase foundation and membership entitlement
-- [ ] Phase 3 — AS member enrichment
-- [ ] Phase 4 — Private States MVP
-- [ ] Phase 5 — Collaboration
-- [ ] Phase 6 — Curated Index
-- [ ] Phase 7 — Billing automation
-- [ ] Phase 8 — Hardening and release
+## Historical release evidence
 
-## Current blocking decisions
+On 14 September 2026 the former production build passed [CI 34690828889](https://github.com/PARC-Labs/Applied-State-Site/actions/runs/34690828889) and [Pages 34690939009](https://github.com/PARC-Labs/Applied-State-Site/actions/runs/34690939009). This evidence is historical and does not verify the current refactor.
 
-- Billing provider: deferred until Phase 7. Authorization must remain provider-agnostic.
-- Public publication of member States: explicitly out of v1 scope.
-- State-to-State nesting: defer until normal material connections are stable.
-- Arbitrary file uploads: defer until Storage policies and upload hardening are complete.
-
-## Completion rule
-
-A phase is complete only when:
-
-1. its implementation tasks are complete;
-2. its stated exit criteria in the engineering plan are met;
-3. relevant allow/deny security tests pass;
-4. CI is green;
-5. no private fixture data appears in the static build.
-
-## Verified release evidence — 14 September 2026
-
-- Production domain change merged as `d3d5aad` on 12 September.
-- [CI 34690828889](https://github.com/PARC-Labs/Applied-State-Site/actions/runs/34690828889)
-  and [Pages deployment 34690939009](https://github.com/PARC-Labs/Applied-State-Site/actions/runs/34690939009)
-  succeeded for that release.
-- `https://appliedstate.xyz/` loads the public site over HTTPS;
-  `https://www.appliedstate.xyz/` redirects to the apex domain.
-- The GitHub organization verification TXT record exists in DNS. GitHub's
-  final organization verification status has not been inspected.
-- A successful production magic-link delivery and member session are still
-  unverified. These observations do not satisfy every phase exit criterion.
+The former numbered member feature phases and deferred billing plan are superseded. Archived specifications are retained for provenance, not current implementation direction.

@@ -2,17 +2,20 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import test from 'node:test'
 
-for (const workflow of ['ci.yml', 'pages.yml']) {
-  test(`${workflow} fails database lint on warnings and errors`, () => {
-    const source = readFileSync(new URL(`../.github/workflows/${workflow}`, import.meta.url), 'utf8')
-    const lintCommands = source.match(/^\s*run: supabase db lint[^\r\n]*/gm) ?? []
-    assert.ok(lintCommands.length > 0, 'the workflow must run database lint')
-    for (const command of lintCommands) {
-      // --level only controls output. Without --fail-on the CLI exits zero
-      // even when it finds SQL errors, allowing a broken release to proceed.
-      assert.match(command, /--local\b/)
-      assert.match(command, /--level warning\b/)
-      assert.match(command, /--fail-on warning\s*$/)
-    }
-  })
-}
+const workflow = (name) => readFileSync(new URL(`../.github/workflows/${name}`, import.meta.url), 'utf8')
+
+test('preserved Supabase backend still has a migration, lint and RLS check on backend changes', () => {
+  const source = workflow('legacy-supabase.yml')
+  assert.match(source, /supabase db start/)
+  assert.match(source, /supabase db lint --local --level warning --fail-on warning/)
+  assert.match(source, /supabase test db/)
+  assert.match(source, /'supabase\/\*\*'/)
+})
+
+test('static institutional site release does not depend on a retired database', () => {
+  for (const file of ['ci.yml', 'pages.yml']) {
+    const source = workflow(file)
+    assert.doesNotMatch(source, /supabase db start|supabase test db|supabase db lint/)
+  }
+  assert.match(workflow('pages.yml'), /needs: \[build\]/)
+})

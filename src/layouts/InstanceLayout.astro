@@ -5,16 +5,14 @@ interface Props {
   code: string
   title?: string
   description?: string
-  memberEnhanced?: boolean
 }
 
-const { code, title, description, memberEnhanced = false } = Astro.props
+const { code, title, description } = Astro.props
 const pageTitle = title ? `${code} — ${title} — Applied State` : `${code} — Applied State`
-const signInHref = `${import.meta.env.BASE_URL}signin/`
 ---
 
 <BaseLayout title={pageTitle} description={description} pageClass="instance-page">
-  <article class="instance" data-member-instance={code}>
+  <article class="instance" data-instance={code}>
     <header class="instance-header">
       <h1 class="instance-code">{code}</h1>
       {title && <p class="instance-title">{title}</p>}
@@ -24,10 +22,5 @@ const signInHref = `${import.meta.env.BASE_URL}signin/`
       <slot />
     </div>
 
-    {memberEnhanced && (
-      <p class="member-note" data-member-note>
-        Members have access to additional material. <a href={signInHref}>Sign in</a>.
-      </p>
-    )}
   </article>
 </BaseLayout>
